@@ -1,0 +1,4 @@
+.idea
+*.iml
+
+/backend/src/main/resources/static/
