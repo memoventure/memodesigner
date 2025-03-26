@@ -1,16 +1,16 @@
-import { useState } from 'react'
-import WelcomeUser from "./components/WelcomeUser.tsx";
-
 import './App.css'
-import QuizElement from "./components/QuizElement.tsx";
+import Quiz from "./components/Quiz.tsx";
+import {Route, Routes} from "react-router";
+import ExperienceDesigner from "./components/ExperienceDesigner.tsx";
 
 function App() {
 
   return (
-    <>
-      <WelcomeUser/>
-        <QuizElement/>
-    </>
+    <Routes>
+        <Route path="/" element={<Quiz/>}/>
+        {/*<Route path="/designer" element={<QuizDesigner/>}/>*/}
+        <Route path="/exp" element={<ExperienceDesigner/>}/>
+    </Routes>
   )
 }
 

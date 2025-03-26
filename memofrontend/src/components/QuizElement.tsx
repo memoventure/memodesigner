@@ -1,23 +1,50 @@
-export default function QuizElement() {
+import {QuizQuestionElement} from "../types/QuizQuestionElement.ts";
+import {useEffect, useState} from "react";
+
+type Props = {
+    question: QuizQuestionElement,
+    selectedAnswer: string;
+    onAnswerChange: (questionId: string, answer: string) => void,
+    result?: boolean //result is optional
+}
+
+export default function QuizElement(props: Props) {
+
+    // Speichert die zufällige Reihenfolge **nur einmal** beim ersten Rendern
+    const [shuffledAnswers, setShuffledAnswers] = useState<string[]>([]);
+
+    useEffect(() => {
+        setShuffledAnswers(shuffleAnswers(props.question.correctAnswer, props.question.wrongAnswers));
+    }, [props.question]); // Läuft nur, wenn sich die Frage ändert (nicht bei jeder Antwort)
+
+    //Shuffle answers
+    const shuffleAnswers = (correctAnswer: string, wrongAnswers: string[]) => {
+        const allAnswers = [correctAnswer, ...wrongAnswers];
+        return allAnswers.sort(() => Math.random() - 0.5);
+    };
+
 
     return(
         <>
-            <h2>Wie groß ist der Eifelturm?</h2>
-            <form>
-                <fieldset>
-                    <div>
-                        <input type="radio" id="Question1" name="answer" value="answer1"/>
-                        <label htmlFor="Question1">235</label>
+            <fieldset>
+                <legend>{props.question.question}</legend>
+                {shuffledAnswers.map((answer, index) => (
+                    <div key={index}>
+                        <input
+                            type="radio"
+                            id={`q${props.question.id}_a${index}`}
+                            name={`question-${props.question.id}`}
+                            value={answer}
+                            onChange={() => props.onAnswerChange(props.question.id, answer)}
+                            checked={props.selectedAnswer === answer}
+                        />
+                        <label htmlFor={`q${props.question.id}_a${index}`}>{answer}</label>
                     </div>
-                    <div>
-                        <input type="radio" id="Question2" name="answer" value="answer2"/>
-                        <label htmlFor="Question2">356</label>
-                    </div>
-                    <div>
-                        <button>Antwort speichern</button>
-                    </div>
-                </fieldset>
-            </form>
+                ))}
+                {props.result !== undefined && (
+                <p style={{ color: props.result ? "green" : "red" }}>{props.result ? "Richtig!" : "Falsch!"}</p>
+                )}
+            </fieldset>
         </>
     )
 }
