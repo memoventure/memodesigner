@@ -12,6 +12,6 @@ public record Experience(
     @Id
     String id,
     String name,
-    List<Quiz> listofQuizes,
+    List<Quiz> listofQuizzes,
     List<ExperienceInstance> listofExpInstances) {
 }
