@@ -5,8 +5,8 @@ import memomeals.backend.experiences.model.Quiz;
 
 import java.util.List;
 
-public record ResponseExperienceDto(
+public record UpdateExperienceDto(
         String name,
-        List<Quiz> listofQuizzes,
-        List<ExperienceInstance> listofExpInstances) {
+        List<Quiz> listOfGames,
+        List<ExperienceInstance> listOfExpInstances) {
 }

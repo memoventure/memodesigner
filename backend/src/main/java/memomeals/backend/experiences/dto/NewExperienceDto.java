@@ -7,6 +7,6 @@ import java.util.List;
 
 public record NewExperienceDto(
         String name,
-        List<Quiz> listofQuizzes,
-        List<ExperienceInstance> listofExpInstances) {
+        List<Quiz> listOfGames,
+        List<ExperienceInstance> listOfExpInstances) {
 }

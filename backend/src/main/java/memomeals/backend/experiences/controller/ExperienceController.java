@@ -1,7 +1,7 @@
 package memomeals.backend.experiences.controller;
 
 import memomeals.backend.experiences.dto.NewExperienceDto;
-import memomeals.backend.experiences.dto.ResponseExperienceDto;
+import memomeals.backend.experiences.dto.UpdateExperienceDto;
 import memomeals.backend.experiences.model.Experience;
 import memomeals.backend.experiences.service.ExperienceService;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +39,7 @@ public class ExperienceController {
     }
 
     @PutMapping("{id}")
-    public Experience putExperience(@RequestBody ResponseExperienceDto experience, @PathVariable String id) {
+    public Experience putExperience(@RequestBody UpdateExperienceDto experience, @PathVariable String id) {
         return experienceService.updateExperience(experience, id);
     }
 
