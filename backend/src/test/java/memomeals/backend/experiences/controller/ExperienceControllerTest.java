@@ -211,7 +211,7 @@ public class ExperienceControllerTest {
                                 """)
                 )
                 //THEN
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().json("""       
                         {
                             "name": "Experience name",
@@ -358,7 +358,7 @@ public class ExperienceControllerTest {
     void deleteWorkout_shouldReturnNotFound_whenExperienceDoesNotExist() throws Exception {
 
         mockMvc.perform(delete("/api/experiences/{id}", "nonexistent-id"))
-                .andExpect(status().isOk());
+                .andExpect(status().isNotFound());
 
     }
 }

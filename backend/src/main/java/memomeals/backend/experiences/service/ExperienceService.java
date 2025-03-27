@@ -3,14 +3,13 @@ package memomeals.backend.experiences.service;
 import lombok.RequiredArgsConstructor;
 import memomeals.backend.experiences.dto.NewExperienceDto;
 import memomeals.backend.experiences.dto.UpdateExperienceDto;
+import memomeals.backend.experiences.expection.NoSuchExperienceException;
 import memomeals.backend.experiences.model.Experience;
 import memomeals.backend.experiences.repository.ExperienceRepository;
 import memomeals.backend.utils.IdService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
-
 @RequiredArgsConstructor
 @Service
 public class ExperienceService {
@@ -24,7 +23,7 @@ public class ExperienceService {
 
     public Experience findExperienceById(String id) {
         return expRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Experience with id: " + id + " not found!"));
+                .orElseThrow(() -> new NoSuchExperienceException("Experience with id: " + id + " not found!"));
     }
 
     public Experience addExperience(NewExperienceDto newExperience) {
@@ -35,6 +34,10 @@ public class ExperienceService {
     }
 
     public Experience updateExperience(UpdateExperienceDto experience, String id) {
+        if(!expRepository.existsById(id))
+        {
+            throw new NoSuchExperienceException("Experience with id: " + id + " not found!");
+        }
         Experience experienceToUpdate = new Experience(id, experience.name(), experience.listOfGames(), experience.listOfExpInstances());
         return expRepository.save(experienceToUpdate);
     }
@@ -44,10 +47,14 @@ public class ExperienceService {
                 .filter(exp -> exp.listOfExpInstances().stream()
                         .anyMatch(instance -> instance.gameCode().equals(id)))
                 .findFirst()
-                .orElseThrow(() -> new NoSuchElementException("Experience with id: " + id + " not found!"));
+                .orElseThrow(() -> new NoSuchExperienceException("Experience instance with id: " + id + " not found!"));
     }
 
     public void deleteExperience(String id) {
+        if(!expRepository.existsById(id))
+        {
+            throw new NoSuchExperienceException("Experience with id: " + id + " not found!");
+        }
         expRepository.deleteById(id);
     }
 }

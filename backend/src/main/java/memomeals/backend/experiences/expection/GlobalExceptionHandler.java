@@ -7,20 +7,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
-import java.util.NoSuchElementException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(NoSuchElementException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public CustomErrorMessage handleNoSuchElementException(NoSuchElementException exception) {
-        return new CustomErrorMessage(exception.getMessage(), LocalDateTime.now());
-    }
-
     @ExceptionHandler(NoSuchExperienceException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public CustomErrorMessage handleNoSuchProductException(NoSuchExperienceException exception) {
+    public CustomErrorMessage handleNoSuchExperienceException(NoSuchExperienceException exception) {
         return new CustomErrorMessage(exception.getMessage(), LocalDateTime.now());
     }
 

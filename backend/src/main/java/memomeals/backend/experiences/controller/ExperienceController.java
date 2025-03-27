@@ -4,6 +4,7 @@ import memomeals.backend.experiences.dto.NewExperienceDto;
 import memomeals.backend.experiences.dto.UpdateExperienceDto;
 import memomeals.backend.experiences.model.Experience;
 import memomeals.backend.experiences.service.ExperienceService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,6 +34,7 @@ public class ExperienceController {
         return experienceService.findExperienceByInstanceId(id);
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Experience postExperience(@RequestBody NewExperienceDto newExperience) {
         return experienceService.addExperience(newExperience);

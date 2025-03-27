@@ -2,6 +2,7 @@ package memomeals.backend.experiences.service;
 
 import memomeals.backend.experiences.dto.NewExperienceDto;
 import memomeals.backend.experiences.dto.UpdateExperienceDto;
+import memomeals.backend.experiences.expection.NoSuchExperienceException;
 import memomeals.backend.experiences.model.Experience;
 import memomeals.backend.experiences.model.ExperienceInstance;
 import memomeals.backend.experiences.model.Quiz;
@@ -102,7 +103,7 @@ public class ExperienceServiceTest {
         when(experienceRepository.findById(id)).thenReturn(Optional.empty());
 
         //WHEN
-        assertThrows(NoSuchElementException.class, () -> experienceService.findExperienceById(id));
+        assertThrows(NoSuchExperienceException.class, () -> experienceService.findExperienceById(id));
 
 
         //THEN
@@ -145,7 +146,7 @@ public class ExperienceServiceTest {
     }
 
     @Test
-    void updateExperience() {
+    void updateExperienceById_ExperienceFound() {
         //GIVEN
         //setup Experience Instance
         ExperienceInstance experienceInstance = new ExperienceInstance("1", "123", 5);
@@ -169,6 +170,7 @@ public class ExperienceServiceTest {
         Experience updatedExp = new Experience("1", "test-name", listOfQuizzes, expIstanceList);
 
         when(experienceRepository.save(updatedExp)).thenReturn(updatedExp);
+        when(experienceRepository.existsById(id)).thenReturn(true);
 
         //WHEN
 
@@ -181,17 +183,112 @@ public class ExperienceServiceTest {
     }
 
     @Test
+    void updateExperienceById_ExperienceNotFound() {
+        //GIVEN
+        //setup Experience Instance
+        ExperienceInstance experienceInstance = new ExperienceInstance("1", "123", 5);
+        List<ExperienceInstance> expIstanceList = new ArrayList<>();
+        expIstanceList.add(experienceInstance);
+
+        //setup Quiz
+        List<String> wrongAnswerList = Arrays.asList("Madrid", "Berlin");
+        QuizElement quizElement = new QuizElement("What is the capital of Italy?", "Rome", wrongAnswerList);
+        List<QuizElement> quizElementsList = new ArrayList<>();
+        quizElementsList.add(quizElement);
+        Quiz quiz = new Quiz("1", "quiz name", "quiz description", quizElementsList);
+
+        //setup Experience
+        List<Quiz> listOfQuizzes = new ArrayList<>();
+        listOfQuizzes.add(quiz);
+        String id = "1";
+
+        UpdateExperienceDto expToUpdate = new UpdateExperienceDto("test-name", listOfQuizzes, expIstanceList);
+
+        when(experienceRepository.existsById(id)).thenReturn(false);
+
+        // WHEN & THEN
+        NoSuchExperienceException exception = assertThrows(NoSuchExperienceException.class,
+                () -> experienceService.updateExperience(expToUpdate, id));
+
+        assertEquals("Experience with id: 1 not found!", exception.getMessage());
+
+        //THEN
+        verify(experienceRepository, never()).save(any(Experience.class));
+
+    }
+
+    @Test
+    void findExperienceByInstanceId_IfExists() {
+        //GIVEN
+        //setup Experience Instance
+        ExperienceInstance experienceInstance = new ExperienceInstance("1", "1", 5);
+        List<ExperienceInstance> expIstanceList = new ArrayList<>();
+        expIstanceList.add(experienceInstance);
+
+        //setup Quiz
+        List<String> wrongAnswerList = Arrays.asList("Madrid", "Berlin");
+        QuizElement quizElement = new QuizElement("What is the capital of Italy?", "Rome", wrongAnswerList);
+        List<QuizElement> quizElementsList = new ArrayList<>();
+        quizElementsList.add(quizElement);
+        Quiz quiz = new Quiz("1", "quiz name", "quiz description", quizElementsList);
+
+        //setup Experience
+        List<Quiz> listOfQuizzes = new ArrayList<>();
+        listOfQuizzes.add(quiz);
+
+        String instanceId = "1";
+
+        Experience experience = new Experience("1", "test-name", listOfQuizzes, expIstanceList);
+
+        when(experienceRepository.findAll()).thenReturn(Collections.singletonList(experience));
+
+        //WHEN
+        Experience actual = experienceService.findExperienceByInstanceId(instanceId);
+
+        //THEN
+        assertEquals(experience, actual);
+    }
+
+    @Test
+    void findExperienceByInstanceId_IfNotExists() {
+        //GIVEN
+        String instanceId = "1";
+
+        // WHEN & THEN
+        NoSuchExperienceException exception = assertThrows(NoSuchExperienceException.class,
+                () -> experienceService.findExperienceByInstanceId(instanceId));
+
+        assertEquals("Experience instance with id: 1 not found!", exception.getMessage());
+
+    }
+
+    @Test
     void deleteExperience_whenExists() {
         //GIVEN
         String id = "1";
         doNothing().when(experienceRepository).deleteById(id);
+        when(experienceRepository.existsById(id)).thenReturn(true);
 
         //WHEN
-
         experienceService.deleteExperience(id);
 
         //THEN
+        verify(experienceRepository).existsById(id);
         verify(experienceRepository).deleteById(id);
+    }
+
+    @Test
+    void deleteExperience_whenNotExists_thenThrowException() {
+        //GIVEN
+        String id = "1";
+
+        when(experienceRepository.existsById(id)).thenReturn(false);
+
+        // WHEN & THEN
+        assertThrows(NoSuchExperienceException.class, () -> experienceService.deleteExperience(id));
+
+        //THEN
+        verify(experienceRepository, never()).deleteById(id);
     }
 
 }
