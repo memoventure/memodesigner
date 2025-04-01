@@ -1,44 +1,49 @@
 import { useState } from "react";
-import {QuizQuestionElement} from "../types/QuizQuestionElement.ts";
-import {Quiz} from "../types/Quiz.ts";
+import {QuizQuestionElement} from "../../types/QuizQuestionElement.ts";
+import {Quiz} from "../../types/Quiz.ts";
+import {useLocation, useNavigate} from "react-router";
+import {Experience} from "../../types/Experience.ts";
+import axios from "axios";
 
-// if anything is updated or saved, this has to be sent to the parent experience designer
-type Props = {
-    onSave: (quiz: Quiz) => void;
-    onUpdate: (quiz: Quiz) => void;
-}
+export default function QuizDesigner() {
 
-export default function QuizDesigner(props: Props) {
-    const [quiz, setQuiz] = useState<Quiz>({
-        id: "123",
-        name: "",
-        listOfQuizElements: [{
-            id: "123",
-            question: "",
-            correctAnswer: "",
-            wrongAnswers: []
-        }]
-    });
+    console.error("In quiz designer");
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    // Extract experience and quiz from the location state
+    const { experience, quiz }: { experience: Experience; quiz: Quiz } = location.state || {};
+    console.log("name  " + experience.name)
+    console.log("quiz  " + quiz.name)
+    console.log("quiz elements  " + quiz.listOfQuizElements)
+    // Redirect if no experience or quiz is provided
+    if (!experience || !quiz) {
+        console.error("Experience or quiz not found");
+        navigate("/designer/dashboard");
+    }
+
+    // State to handle updated quiz
+    const [updatedQuiz, setUpdatedQuiz] = useState<Quiz>(quiz);
 
     // Update quiz name (prev holds the most recent version of quiz before the update)
     const updateQuizName = (name: string) => {
-        setQuiz((prev) => ({ ...prev, name }));
+        setUpdatedQuiz((prev) => ({ ...prev, name }));
     };
 
     // add new question with empty fields
     const addQuestion = () => {
-        setQuiz((prev) => ({
+        setUpdatedQuiz((prev) => ({
             ...prev,
             listOfQuizElements: [
                 ...prev.listOfQuizElements,
-                { id: Date.now().toString(), question: "", correctAnswer: "", wrongAnswers: [] },
+                { id: Date.now().toString(), question: "", correctAnswer: "", listOfWrongAnswers: [] },
             ],
         }));
     };
 
     // Update question
     const updateQuestion = (id: string, key: keyof QuizQuestionElement, value: string | string[]) => {
-        setQuiz((prev) => ({
+        setUpdatedQuiz((prev) => ({
             ...prev,
             //update only the question which is changed
             listOfQuizElements: prev.listOfQuizElements.map((q) =>
@@ -49,11 +54,11 @@ export default function QuizDesigner(props: Props) {
 
     // Add a new wrong answer field
     const addWrongAnswer = (questionId: string) => {
-        setQuiz((prev) => ({
+        setUpdatedQuiz((prev) => ({
             ...prev,
             listOfQuizElements: prev.listOfQuizElements.map((q) =>
                 q.id === questionId
-                    ? { ...q, wrongAnswers: [...q.wrongAnswers, ""] } // Add an empty string to wrongAnswers
+                    ? { ...q, listOfWrongAnswers: [...q.listOfWrongAnswers, ""] } // Add an empty string to wrongAnswers
                     : q
             ),
         }));
@@ -62,18 +67,29 @@ export default function QuizDesigner(props: Props) {
     // Save new or updated quiz
     const saveQuiz = () => {
         //trim removes white spaces, tabs, newlines
-        const trimmedName = quiz.name.trim();
+        const trimmedName = updatedQuiz.name.trim();
 
-        if (quiz.listOfQuizElements.length === 0 || trimmedName === "") {
+        if (updatedQuiz.listOfQuizElements.length === 0 || trimmedName === "") {
             alert("Bitte einen Namen und mindestens eine Frage hinzufügen!");
             return;
         }
 
-        if (quiz.id) {
-            props.onUpdate({ ...quiz, name: trimmedName }); // Ensure trimmed name is used
-        } else {
-            props.onSave({ ...quiz, id: "123" });
-        }
+        const updatedExperience = {
+            ...experience,
+            listOfGames: experience.listOfGames.map((game) =>
+                game.id === updatedQuiz.id ? updatedQuiz : game // Replace the old quiz with the updated one
+            ),
+        };
+
+        // Call API to save updated experience
+        axios.put(`/api/experiences/${experience.id}`, updatedExperience)
+            .then((response) => {
+                console.log("Experience updated:", response.data);
+            })
+            .catch((error) => {
+                console.error("Error updating experience:", error);
+            });
+
     };
 
     return (
@@ -85,13 +101,16 @@ export default function QuizDesigner(props: Props) {
                 Quiz Name:
                 <input
                     type="text"
-                    value={quiz.name}
+                    value={updatedQuiz.name}
                     onChange={(e) => updateQuizName(e.target.value)}
                 />
             </label>
 
             {/* List of questions */}
-            {quiz.listOfQuizElements.map((q, qIndex) => (
+            {updatedQuiz.listOfQuizElements.length === 0 ? (
+                    <p>🚀 Noch keine Fragen vorhanden. Füge deine erste Frage hinzu!</p>
+                ) : (
+                updatedQuiz.listOfQuizElements.map((q, qIndex) => (
                 <div key={q.id} style={{ border: "1px solid #ccc", padding: "10px", margin: "10px 0" }}>
                     <h3>Frage {qIndex + 1}</h3>
                     <input
@@ -110,22 +129,23 @@ export default function QuizDesigner(props: Props) {
                     />
 
                     <h4>Falsche Antworten</h4>
-                    {q.wrongAnswers.map((answer, index) => (
+                    {q.listOfWrongAnswers.map((answer, index) => (
                         <div key={index}>
                             <input
                                 type="text"
                                 placeholder="Falsche Antwort"
                                 value={answer}
-                                onChange={(e) => updateQuestion(q.id, "wrongAnswers", [
-                                    ...q.wrongAnswers.slice(0, index),
+                                onChange={(e) => updateQuestion(q.id, "listOfWrongAnswers", [
+                                    ...q.listOfWrongAnswers.slice(0, index),
                                     e.target.value,
-                                    ...q.wrongAnswers.slice(index + 1),
+                                    ...q.listOfWrongAnswers.slice(index + 1),
                                 ])}
                             />
                         </div>
                     ))}
                     <button onClick={() => addWrongAnswer(q.id)}>➕ Neue falsche Antwort</button>
                 </div>
+                )
             ))}
 
             {/* Buttons */}

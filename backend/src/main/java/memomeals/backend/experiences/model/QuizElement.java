@@ -5,7 +5,7 @@ import java.util.List;
 public record QuizElement(
 
         String question,
-        String rightAnswer,
+        String correctAnswer,
         List<String> listOfWrongAnswers) {
 
 }

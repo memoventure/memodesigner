@@ -1,26 +1,18 @@
-import QuizElement from "./QuizElement.tsx"
+import QuizElement from "../QuizElement.tsx"
 import {FormEvent, useState} from "react";
+import {useNavigate} from "react-router";
 export default function Quiz() {
-    /*
-    const [questions, setQuestions] = useState<QuizQuestionElement[]>([
-        {
-            id: "1",
-            question: "What is the capital of France?",
-            correctAnswer: "Paris",
-            wrongAnswers: ["Berlin", "Madrid", "Rome"],
-        },
-    ]);*/
 
+    const navigate = useNavigate();
     const questions = [
         {
             id: "1",
             question: "What is the capital of France?",
             correctAnswer: "Paris",
-            wrongAnswers: ["Berlin", "Madrid", "Rome"],
+            listOfWrongAnswers: ["Berlin", "Madrid", "Rome"],
         },
     ];
     const [selectedAnswers, setSelectedAnswers] = useState<{ [key: string]: string }>({});
-    const [results, setResults] = useState<{ [key: string]: boolean }>({});
 
     // Antwort speichern
     const handleAnswerChange = (questionId: string, answer: string) => {
@@ -31,13 +23,18 @@ export default function Quiz() {
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault();
 
-        const evaluation: { [key: string]: boolean } = {};
+        // Calculate the number of correct answers
+        let points = 0;
         questions.forEach((q) => {
-            evaluation[q.id] = selectedAnswers[q.id] === q.correctAnswer;
+            if (selectedAnswers[q.id] === q.correctAnswer) {
+                points++;
+            }
         });
 
-        setResults(evaluation);
+        navigate("/Points", { state: { points } });
     };
+
+    const allAnswered = questions.every((q) => selectedAnswers[q.id]);
 
     return(
         <>
@@ -49,10 +46,9 @@ export default function Quiz() {
                         question={q}
                         selectedAnswer={selectedAnswers[q.id] || ""}
                         onAnswerChange={handleAnswerChange}
-                        result={results[q.id]}
                     />
                 ))}
-                <button type="submit">Antworten überprüfen</button>
+                <button type="submit" disabled={!allAnswered}>Speichern</button>
             </form>
         </>
     )

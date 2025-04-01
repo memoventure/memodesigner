@@ -5,7 +5,6 @@ type Props = {
     question: QuizQuestionElement,
     selectedAnswer: string;
     onAnswerChange: (questionId: string, answer: string) => void,
-    result?: boolean //result is optional
 }
 
 export default function QuizElement(props: Props) {
@@ -14,12 +13,12 @@ export default function QuizElement(props: Props) {
     const [shuffledAnswers, setShuffledAnswers] = useState<string[]>([]);
 
     useEffect(() => {
-        setShuffledAnswers(shuffleAnswers(props.question.correctAnswer, props.question.wrongAnswers));
+        setShuffledAnswers(shuffleAnswers(props.question.correctAnswer, props.question.listOfWrongAnswers));
     }, [props.question]); // Läuft nur, wenn sich die Frage ändert (nicht bei jeder Antwort)
 
     //Shuffle answers
-    const shuffleAnswers = (correctAnswer: string, wrongAnswers: string[]) => {
-        const allAnswers = [correctAnswer, ...wrongAnswers];
+    const shuffleAnswers = (correctAnswer: string, listOfWrongAnswers: string[]) => {
+        const allAnswers = [correctAnswer, ...listOfWrongAnswers];
         return allAnswers.sort(() => Math.random() - 0.5);
     };
 
@@ -41,9 +40,6 @@ export default function QuizElement(props: Props) {
                         <label htmlFor={`q${props.question.id}_a${index}`}>{answer}</label>
                     </div>
                 ))}
-                {props.result !== undefined && (
-                <p style={{ color: props.result ? "green" : "red" }}>{props.result ? "Richtig!" : "Falsch!"}</p>
-                )}
             </fieldset>
         </>
     )

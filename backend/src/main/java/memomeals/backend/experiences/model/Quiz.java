@@ -8,7 +8,8 @@ public record Quiz(
         @Id
         String id,
         String name,
+        String type,
         String description,
-        List<QuizElement> listOfQuestions) {
+        List<QuizElement> listOfQuizElements) {
 
 }
