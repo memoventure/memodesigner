@@ -7,15 +7,12 @@ import axios from "axios";
 
 export default function QuizDesigner() {
 
-    console.error("In quiz designer");
     const location = useLocation();
     const navigate = useNavigate();
 
     // Extract experience and quiz from the location state
     const { experience, quiz }: { experience: Experience; quiz: Quiz } = location.state || {};
-    console.log("name  " + experience.name)
-    console.log("quiz  " + quiz.name)
-    console.log("quiz elements  " + quiz.listOfQuizElements)
+
     // Redirect if no experience or quiz is provided
     if (!experience || !quiz) {
         console.error("Experience or quiz not found");

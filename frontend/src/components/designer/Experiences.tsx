@@ -23,6 +23,7 @@ export default function Experiences(props: Readonly<Props>) {
                 <h1>Erlebnisse verwalten</h1>
             </div>
             <div>
+                <button onClick={() => navigate("/designer/dashboard")}>Dashboard</button>
                 <button onClick={() => navigate("/designer/setup")}>Neues Erlebnis erstellen</button>
             </div>
             <div>

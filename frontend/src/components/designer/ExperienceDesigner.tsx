@@ -16,7 +16,6 @@ export default function ExperienceDesigner(props: Readonly<Props>) {
     const params = useParams();
     const id: string | undefined = params.id;
 
-    //const currentExp = props.experiences.find(exp => exp.id === id);
     const [currentExp, setCurrentExp] = useState<Experience | null>(null);
 
     const [selectedGame, setSelectedGame] = useState<string>("");
@@ -73,26 +72,20 @@ export default function ExperienceDesigner(props: Readonly<Props>) {
             console.log("creating quiz" + currentExp)
             newGame = {
                 id: crypto.randomUUID(),
-                name: "New Quiz",
-                description: "Das ist die Beschreibung",
+                name: "Quiz Name",
+                description: "",
                 type: GameOption.QUIZ,
-                listOfQuizElements: [{
-                    id: "2",
-                    question: "This is a question",
-                    correctAnswer: "Yes",
-                    listOfWrongAnswers: ["No", "No"]
-                }]
+                listOfQuizElements: []
             };
-            console.log("Neues Game erzeugt mit Typ Quiz " + newGame.type)
 
         } else if (type === GameOption.WELCOME) {
             newGame = {
                 id: crypto.randomUUID(),
-                name: "Welcome Step",
+                name: "Welcome Name",
                 type: GameOption.WELCOME,
                 imgPath: "img-path"
             };
-            console.log("Neues Game erzeugt mit Typ Welcome " + newGame.type)
+
         } else {
             return; // Unknown type, do nothing
         }
@@ -120,14 +113,8 @@ export default function ExperienceDesigner(props: Readonly<Props>) {
             });
         } else if (action === "edit") {
             if (!currentExp) return;
-            console.log(`Editing step `);
-            console.log("current name " + currentExp.name);
-            console.log("step" + stepNumber);
 
             const gameToEdit = currentExp.listOfGames[stepNumber - 1];
-            console.log("type" + gameToEdit.type);
-            console.log("name" + gameToEdit.name);
-            console.log("length games" + currentExp.listOfGames.length);
 
             if (gameToEdit.type === GameOption.QUIZ) {
                 navigate("/designer/quiz", {
@@ -144,6 +131,8 @@ export default function ExperienceDesigner(props: Readonly<Props>) {
         <>
             <div>
                 <h1>Erlebnis Designer</h1>
+                <button onClick={() => navigate("/designer/dashboard")}>Dashboard</button>
+                <button onClick={() => navigate("/designer/experiences")}>Übersicht</button>
                 <div><p>Name: {currentExp.name}</p></div>
                 <div><p><strong>Ablauf</strong></p></div>
                 <div>
