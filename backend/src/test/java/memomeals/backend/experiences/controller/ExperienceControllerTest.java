@@ -35,7 +35,7 @@ public class ExperienceControllerTest {
 
         //GIVEN
         //setup Experience Instance
-        ExperienceInstance experienceInstance = new ExperienceInstance("1", "123", 5);
+        ExperienceInstance experienceInstance = new ExperienceInstance("1", "123", 5, 5);
         List<ExperienceInstance> expIstanceList = new ArrayList<>();
         expIstanceList.add(experienceInstance);
 
@@ -44,7 +44,7 @@ public class ExperienceControllerTest {
         QuizElement quizElement = new QuizElement("What is the capital of Italy?", "Rome", wrongAnswerList);
         List<QuizElement> quizElementsList = new ArrayList<>();
         quizElementsList.add(quizElement);
-        Quiz quiz = new Quiz("1", "quiz name", "quiz description", quizElementsList);
+        Quiz quiz = new Quiz("1", "quiz name", "Quiz", "quiz description", quizElementsList);
 
         //setup Experience
         List<Quiz> listOfQuizzes = new ArrayList<>();
@@ -67,10 +67,10 @@ public class ExperienceControllerTest {
                                   "id": "1",
                                   "name": "quiz name",
                                   "description": "quiz description",
-                                  "listOfQuestions": [
+                                  "listOfQuizElements": [
                                   {
                                     "question": "What is the capital of Italy?",
-                                    "rightAnswer": "Rome",
+                                    "correctAnswer": "Rome",
                                     "listOfWrongAnswers": ["Madrid", "Berlin"]
                                   }
                                   ]
@@ -111,7 +111,7 @@ public class ExperienceControllerTest {
 
         //GIVEN
         //setup Experience Instance
-        ExperienceInstance experienceInstance = new ExperienceInstance("1", "123", 5);
+        ExperienceInstance experienceInstance = new ExperienceInstance("1", "123", 5, 5);
         List<ExperienceInstance> expIstanceList = new ArrayList<>();
         expIstanceList.add(experienceInstance);
 
@@ -120,7 +120,7 @@ public class ExperienceControllerTest {
         QuizElement quizElement = new QuizElement("What is the capital of Italy?", "Rome", wrongAnswerList);
         List<QuizElement> quizElementsList = new ArrayList<>();
         quizElementsList.add(quizElement);
-        Quiz quiz = new Quiz("1", "quiz name", "quiz description", quizElementsList);
+        Quiz quiz = new Quiz("1", "quiz name", "Quiz", "quiz description", quizElementsList);
 
         //setup Experience
         List<Quiz> listOfQuizzes = new ArrayList<>();
@@ -142,10 +142,10 @@ public class ExperienceControllerTest {
                               "id": "1",
                               "name": "quiz name",
                               "description": "quiz description",
-                              "listOfQuestions": [
+                              "listOfQuizElements": [
                               {
                                 "question": "What is the capital of Italy?",
-                                "rightAnswer": "Rome",
+                                "correctAnswer": "Rome",
                                 "listOfWrongAnswers": ["Madrid", "Berlin"]
                               }
                               ]
@@ -191,10 +191,10 @@ public class ExperienceControllerTest {
                                       "id": "1",
                                       "name": "quiz name",
                                       "description": "quiz description",
-                                      "listOfQuestions": [
+                                      "listOfQuizElements": [
                                       {
                                         "question": "What is the capital of Italy?",
-                                        "rightAnswer": "Rome",
+                                        "correctAnswer": "Rome",
                                         "listOfWrongAnswers": ["Madrid", "Berlin"]
                                       }
                                       ]
@@ -204,6 +204,7 @@ public class ExperienceControllerTest {
                                     {
                                         "id": "1",
                                         "gameCode": "123",
+                                        "gameStep": 0,
                                         "points": 5
                                     }
                                     ]
@@ -220,10 +221,10 @@ public class ExperienceControllerTest {
                               "id": "1",
                               "name": "quiz name",
                               "description": "quiz description",
-                              "listOfQuestions": [
+                              "listOfQuizElements": [
                               {
                                 "question": "What is the capital of Italy?",
-                                "rightAnswer": "Rome",
+                                "correctAnswer": "Rome",
                                 "listOfWrongAnswers": ["Madrid", "Berlin"]
                               }
                               ]
@@ -233,6 +234,7 @@ public class ExperienceControllerTest {
                             {
                                 "id": "1",
                                 "gameCode": "123",
+                                "gameStep": 0,
                                 "points": 5
                             }
                             ]
@@ -246,7 +248,7 @@ public class ExperienceControllerTest {
     void putExperience() throws Exception {
         //GIVEN
         //setup Experience Instance
-        ExperienceInstance experienceInstance = new ExperienceInstance("1", "123", 5);
+        ExperienceInstance experienceInstance = new ExperienceInstance("1", "123", 5, 5);
         List<ExperienceInstance> expIstanceList = new ArrayList<>();
         expIstanceList.add(experienceInstance);
 
@@ -255,7 +257,7 @@ public class ExperienceControllerTest {
         QuizElement quizElement = new QuizElement("What is the capital of Italy?", "Rome", wrongAnswerList);
         List<QuizElement> quizElementsList = new ArrayList<>();
         quizElementsList.add(quizElement);
-        Quiz quiz = new Quiz("1", "quiz name", "quiz description", quizElementsList);
+        Quiz quiz = new Quiz("1", "quiz name", "Quiz", "quiz description", quizElementsList);
 
         //setup Experience
         List<Quiz> listOfQuizzes = new ArrayList<>();
@@ -275,10 +277,10 @@ public class ExperienceControllerTest {
                                   "id": "1",
                                   "name": "quiz name 2",
                                   "description": "quiz description 2",
-                                  "listOfQuestions": [
+                                  "listOfQuizElements": [
                                   {
                                     "question": "What is the capital of Spain?",
-                                    "rightAnswer": "Madrid",
+                                    "correctAnswer": "Madrid",
                                     "listOfWrongAnswers": ["Rome", "Berlin"]
                                   }
                                   ]
@@ -304,10 +306,10 @@ public class ExperienceControllerTest {
                                   "id": "1",
                                   "name": "quiz name 2",
                                   "description": "quiz description 2",
-                                  "listOfQuestions": [
+                                  "listOfQuizElements": [
                                   {
                                     "question": "What is the capital of Spain?",
-                                    "rightAnswer": "Madrid",
+                                    "correctAnswer": "Madrid",
                                     "listOfWrongAnswers": ["Rome", "Berlin"]
                                   }
                                   ]
@@ -329,7 +331,7 @@ public class ExperienceControllerTest {
     void deleteExperienceById() throws Exception {
         //GIVEN
         //setup Experience Instance
-        ExperienceInstance experienceInstance = new ExperienceInstance("1", "123", 5);
+        ExperienceInstance experienceInstance = new ExperienceInstance("1", "123", 5, 5);
         List<ExperienceInstance> expIstanceList = new ArrayList<>();
         expIstanceList.add(experienceInstance);
 
@@ -338,7 +340,7 @@ public class ExperienceControllerTest {
         QuizElement quizElement = new QuizElement("What is the capital of Italy?", "Rome", wrongAnswerList);
         List<QuizElement> quizElementsList = new ArrayList<>();
         quizElementsList.add(quizElement);
-        Quiz quiz = new Quiz("1", "quiz name", "quiz description", quizElementsList);
+        Quiz quiz = new Quiz("1", "quiz name", "Quiz", "quiz description", quizElementsList);
 
         //setup Experience
         List<Quiz> listOfQuizzes = new ArrayList<>();

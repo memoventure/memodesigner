@@ -93,7 +93,7 @@ export default function QuizDesigner() {
         <div>
             <h2>Quiz Designer</h2>
 
-            {/* Quiz name */}
+            {/* QuizGame name */}
             <label>
                 Quiz Name:
                 <input

@@ -1,10 +1,11 @@
 import axios from "axios";
 import {Experience} from "../../types/Experience.ts";
+import {ExperienceInstance} from "../../types/ExperienceInstance.ts";
 
 type Props = {
     experience: Experience,
-    onUpdate: () => void,
-    onDelete: () => void;
+    onEdit: () => void,
+    onChange: () => void;
 }
 
 
@@ -13,10 +14,29 @@ export default function ExperienceCard(props: Readonly<Props>) {
     function deleteExp() {
         axios
             .delete(`/api/experiences/${props.experience.id}`)
-            .then(props.onDelete)
+            .then(props.onChange)
             .catch((error) => {
                 console.error("Error deleting experience", error);
             });
+    }
+
+    function generateGameCode() {
+        const instance: ExperienceInstance = {id: "123", gameCode: "456" , gameStep: 0, points: 0};
+        const updatedExperience = {
+            ...props.experience,
+            listOfExpInstances: [...props.experience.listOfExpInstances, instance]
+        };
+        console.log("Generating new code")
+
+        // Call API to save updated experience
+        axios.put(`/api/experiences/${props.experience.id}`, updatedExperience)
+            .then((response) => {
+                console.log("Experience updated:", response.data);
+            })
+            .catch((error) => {
+                console.error("Error updating experience:", error);
+            });
+        props.onChange();
     }
 
     return (
@@ -26,9 +46,9 @@ export default function ExperienceCard(props: Readonly<Props>) {
                     <h3 style={{ margin: 0 }}>{props.experience.name}</h3>
                     {/* Buttons */}
                     <div>
-                        <button onClick={props.onUpdate}>Bearbeiten</button>
+                        <button onClick={props.onEdit}>Bearbeiten</button>
                         <button onClick={deleteExp}>Löschen</button>
-                        <button>Neuen Spielcode generieren</button>
+                        <button onClick={generateGameCode}>Neuen Spielcode generieren</button>
                     </div>
                 </div>
             </div>

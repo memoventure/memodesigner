@@ -1,19 +1,34 @@
 import {useState} from "react";
-import {useNavigate} from "react-router";
+import axios from "axios";
 
-export default function WelcomeUser() {
+type Props = {
+    startGame: (value: string) => void;
+};
+
+export default function WelcomeUser(props: Props) {
 
     const [gameCode, setGameCode] = useState("");
     const [error, setError] = useState("");
-    const navigate = useNavigate();
 
-    const validGameCodes = ["123", "789"]; // Example valid codes
+    //const validGameCodes: string[] = ["123", "789"]; // Example valid codes
 
     const handleStartGame = () => {
-        if (validGameCodes.includes(gameCode.toUpperCase())) {
-            navigate("/quiz")
+        console.log("In handleStartGame with code " + gameCode)
+        if (gameCode !== "") { //validGameCodes.includes(gameCode.toUpperCase())) {
+
+            axios
+                .get(`/api/experiences/instances/${gameCode}`)
+                .then(() => {
+                    console.log("Starting Game")
+                    props.startGame(gameCode);
+                })
+                .catch((error) => {
+                    console.error("Error fetching experiences XXXXXXXXXXX", error);
+                });
+
+
         } else {
-            setError("❌ Ungültiger Code. Bitte erneut versuchen.");
+            setError("❌ Bitte gebe einen Code ein.");
         }
     };
 

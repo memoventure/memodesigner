@@ -28,7 +28,7 @@ export default function Experiences(props: Readonly<Props>) {
             </div>
             <div>
                 {props.experiences.map((experience) =>
-                    (<ExperienceCard key={experience.id} onUpdate={() => handleEdit(experience.id)}  onDelete={props.onExpChange} experience={experience}/>))
+                    (<ExperienceCard key={experience.id} onEdit={() => handleEdit(experience.id)}  onChange={props.onExpChange} experience={experience}/>))
             }
             </div>
 

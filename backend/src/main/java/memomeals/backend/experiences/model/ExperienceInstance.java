@@ -6,6 +6,7 @@ public record ExperienceInstance(
         @Id
         String id,
         String gameCode,
+        int gameStep,
         int points
 ) {
 }

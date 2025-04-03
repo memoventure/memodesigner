@@ -1,14 +1,19 @@
-import {useLocation} from "react-router";
+type Props = {
+    points: number,
+    name: string
+}
 
-export default function Points() {
+export default function Points(props: Readonly<Props>) {
+
+    console.log("in points")
     return (
         <>
             <div>
-                <h1>Du hast folgende Punkte erreicht:</h1>
+                <h1>Points for {props.name}:</h1>
             </div>
 
             <div style={{ border: "2px solid black", padding: "10px", width: "200px", textAlign: "center" }}>
-                <h2>{useLocation().state.points}</h2>
+                <h2>{props.points}</h2>
             </div>
 
         </>

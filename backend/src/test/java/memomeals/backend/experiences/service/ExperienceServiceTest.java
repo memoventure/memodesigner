@@ -28,7 +28,7 @@ public class ExperienceServiceTest {
 
         //GIVEN
         //setup Experience Instance
-        ExperienceInstance experienceInstance = new ExperienceInstance("1", "123", 5);
+        ExperienceInstance experienceInstance = new ExperienceInstance("1", "123", 5, 5);
         List<ExperienceInstance> expIstanceList = new ArrayList<>();
         expIstanceList.add(experienceInstance);
 
@@ -37,7 +37,7 @@ public class ExperienceServiceTest {
         QuizElement quizElement = new QuizElement("What is the capital of Italy?", "Rome", wrongAnswerList);
         List<QuizElement> quizElementsList = new ArrayList<>();
         quizElementsList.add(quizElement);
-        Quiz quiz = new Quiz("1", "quiz name", "quiz description", quizElementsList);
+        Quiz quiz = new Quiz("1", "quiz name", "Quiz", "quiz description", quizElementsList);
 
         //setup Experience
         List<Quiz> listOfQuizzes = new ArrayList<>();
@@ -64,7 +64,7 @@ public class ExperienceServiceTest {
 
         //GIVEN
         //setup Experience Instance
-        ExperienceInstance experienceInstance = new ExperienceInstance("1", "123", 5);
+        ExperienceInstance experienceInstance = new ExperienceInstance("1", "123", 5, 5);
         List<ExperienceInstance> expIstanceList = new ArrayList<>();
         expIstanceList.add(experienceInstance);
 
@@ -73,7 +73,7 @@ public class ExperienceServiceTest {
         QuizElement quizElement = new QuizElement("What is the capital of Italy?", "Rome", wrongAnswerList);
         List<QuizElement> quizElementsList = new ArrayList<>();
         quizElementsList.add(quizElement);
-        Quiz quiz = new Quiz("1", "quiz name", "quiz description", quizElementsList);
+        Quiz quiz = new Quiz("1", "quiz name", "Quiz", "quiz description", quizElementsList);
 
         //setup Experience
         List<Quiz> listOfQuizzes = new ArrayList<>();
@@ -114,7 +114,7 @@ public class ExperienceServiceTest {
     void addExperience() {
         //GIVEN
         //setup Experience Instance
-        ExperienceInstance experienceInstance = new ExperienceInstance("1", "123", 5);
+        ExperienceInstance experienceInstance = new ExperienceInstance("1", "123", 5, 5);
         List<ExperienceInstance> expIstanceList = new ArrayList<>();
         expIstanceList.add(experienceInstance);
 
@@ -123,7 +123,7 @@ public class ExperienceServiceTest {
         QuizElement quizElement = new QuizElement("What is the capital of Italy?", "Rome", wrongAnswerList);
         List<QuizElement> quizElementsList = new ArrayList<>();
         quizElementsList.add(quizElement);
-        Quiz quiz = new Quiz("1", "quiz name", "quiz description", quizElementsList);
+        Quiz quiz = new Quiz("1", "quiz name", "Quiz", "quiz description", quizElementsList);
 
         //setup Experience
         List<Quiz> listOfQuizzes = new ArrayList<>();
@@ -149,7 +149,7 @@ public class ExperienceServiceTest {
     void updateExperienceById_ExperienceFound() {
         //GIVEN
         //setup Experience Instance
-        ExperienceInstance experienceInstance = new ExperienceInstance("1", "123", 5);
+        ExperienceInstance experienceInstance = new ExperienceInstance("1", "123", 5, 5);
         List<ExperienceInstance> expIstanceList = new ArrayList<>();
         expIstanceList.add(experienceInstance);
 
@@ -158,7 +158,7 @@ public class ExperienceServiceTest {
         QuizElement quizElement = new QuizElement("What is the capital of Italy?", "Rome", wrongAnswerList);
         List<QuizElement> quizElementsList = new ArrayList<>();
         quizElementsList.add(quizElement);
-        Quiz quiz = new Quiz("1", "quiz name", "quiz description", quizElementsList);
+        Quiz quiz = new Quiz("1", "quiz name", "Quiz", "quiz description", quizElementsList);
 
         //setup Experience
         List<Quiz> listOfQuizzes = new ArrayList<>();
@@ -186,7 +186,7 @@ public class ExperienceServiceTest {
     void updateExperienceById_ExperienceNotFound() {
         //GIVEN
         //setup Experience Instance
-        ExperienceInstance experienceInstance = new ExperienceInstance("1", "123", 5);
+        ExperienceInstance experienceInstance = new ExperienceInstance("1", "123", 5, 5);
         List<ExperienceInstance> expIstanceList = new ArrayList<>();
         expIstanceList.add(experienceInstance);
 
@@ -195,7 +195,7 @@ public class ExperienceServiceTest {
         QuizElement quizElement = new QuizElement("What is the capital of Italy?", "Rome", wrongAnswerList);
         List<QuizElement> quizElementsList = new ArrayList<>();
         quizElementsList.add(quizElement);
-        Quiz quiz = new Quiz("1", "quiz name", "quiz description", quizElementsList);
+        Quiz quiz = new Quiz("1", "quiz name", "Quiz", "quiz description", quizElementsList);
 
         //setup Experience
         List<Quiz> listOfQuizzes = new ArrayList<>();
@@ -221,7 +221,7 @@ public class ExperienceServiceTest {
     void findExperienceByInstanceId_IfExists() {
         //GIVEN
         //setup Experience Instance
-        ExperienceInstance experienceInstance = new ExperienceInstance("1", "1", 5);
+        ExperienceInstance experienceInstance = new ExperienceInstance("1", "123", 5, 5);
         List<ExperienceInstance> expIstanceList = new ArrayList<>();
         expIstanceList.add(experienceInstance);
 
@@ -230,20 +230,20 @@ public class ExperienceServiceTest {
         QuizElement quizElement = new QuizElement("What is the capital of Italy?", "Rome", wrongAnswerList);
         List<QuizElement> quizElementsList = new ArrayList<>();
         quizElementsList.add(quizElement);
-        Quiz quiz = new Quiz("1", "quiz name", "quiz description", quizElementsList);
+        Quiz quiz = new Quiz("1", "quiz name", "Quiz", "quiz description", quizElementsList);
 
         //setup Experience
         List<Quiz> listOfQuizzes = new ArrayList<>();
         listOfQuizzes.add(quiz);
 
-        String instanceId = "1";
+        String gameCode = "123";
 
         Experience experience = new Experience("1", "test-name", listOfQuizzes, expIstanceList);
 
         when(experienceRepository.findAll()).thenReturn(Collections.singletonList(experience));
 
         //WHEN
-        Experience actual = experienceService.findExperienceByInstanceId(instanceId);
+        Experience actual = experienceService.findExperienceByInstanceId(gameCode);
 
         //THEN
         assertEquals(experience, actual);
