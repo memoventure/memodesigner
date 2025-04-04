@@ -20,6 +20,8 @@ export default function ExperienceDesigner(props: Readonly<Props>) {
 
     const [selectedGame, setSelectedGame] = useState<string>("");
 
+    const [experienceName, setExperienceName] = useState<string>(currentExp?.name || "");
+
     // Fetch experiences when the component mounts
     useEffect(() => {
         if (!id) {
@@ -31,6 +33,7 @@ export default function ExperienceDesigner(props: Readonly<Props>) {
             .get(`/api/experiences/${id}`)
             .then((response) => {
                 setCurrentExp(response.data);
+                setExperienceName(response.data.name)
             })
             .catch((error) => {
                 console.error("Error fetching experiences", error);
@@ -48,7 +51,7 @@ export default function ExperienceDesigner(props: Readonly<Props>) {
     const saveExperience = () => {
         if (currentExp) {
             axios
-                .put(`/api/experiences/${currentExp.id}`, currentExp)
+                .put(`/api/experiences/${currentExp.id}`, { ...currentExp, name: experienceName })
                 .then((response) => {
                     console.log("Erlebnis updated:", response.data);
                     props.onSaveExperience();
@@ -133,7 +136,25 @@ export default function ExperienceDesigner(props: Readonly<Props>) {
                 <h1>Erlebnis Designer</h1>
                 <button onClick={() => navigate("/designer/dashboard")}>Dashboard</button>
                 <button onClick={() => navigate("/designer/experiences")}>Übersicht</button>
-                <div><p>Name: {currentExp.name}</p></div>
+                <div>
+                    {/* Experience Name */}
+                    <label>
+                        Erlebnis Name:
+                        <input
+                            type="text"
+                            value={experienceName}
+                            onChange={(e) => {
+                                setExperienceName(e.target.value);
+                                console.log(e.target.value)
+                                setCurrentExp({
+                                    ...currentExp,
+                                    name: experienceName
+                                });
+                            }
+                            }
+                        />
+                    </label>
+                </div>
                 <div><p><strong>Ablauf</strong></p></div>
                 <div>
                     {currentExp?.listOfGames?.length > 0 &&

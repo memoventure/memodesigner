@@ -93,6 +93,7 @@ export default function QuizDesigner() {
         <div>
             <h2>Quiz Designer</h2>
 
+
             {/* QuizGame name */}
             <label>
                 Quiz Name:
@@ -148,6 +149,7 @@ export default function QuizDesigner() {
             {/* Buttons */}
             <button onClick={addQuestion}>➕ Neue Frage hinzufügen</button>
             <button onClick={saveQuiz}>💾 Quiz speichern</button>
+            <button onClick={() => navigate(`/designer/${experience.id}`)}>💾 Zurück zum Erlebnis</button>
         </div>
     );
 }

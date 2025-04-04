@@ -9,8 +9,7 @@ export default function WelcomeUser(props: Props) {
 
     const [gameCode, setGameCode] = useState("");
     const [error, setError] = useState("");
-
-    //const validGameCodes: string[] = ["123", "789"]; // Example valid codes
+    console.log("In welcome User")
 
     const handleStartGame = () => {
         console.log("In handleStartGame with code " + gameCode)

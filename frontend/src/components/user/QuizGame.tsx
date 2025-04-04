@@ -1,28 +1,29 @@
 import QuizElement from "../QuizElement.tsx"
 import {Quiz} from "../../types/Quiz.ts"
 import {FormEvent, useState} from "react";
-import {useNavigate} from "react-router";
 import {Experience} from "../../types/Experience.ts";
 
 type Props = {
-    experience: Experience
+    experience: Experience,
+    currentGameStep: number,
     gameCode: string | undefined,
-    goToNextGame: () => void
+    goToNextGame: (value: number) => void
 }
 
 export default function QuizGame(props: Readonly<Props>) {
 
     console.log("in quiz game")
-    const navigate = useNavigate();
 
     const [selectedAnswers, setSelectedAnswers] = useState<{ [key: string]: string }>({});
 
-    console.log("experience name " + props.experience.name)
-    const currentGameStep: (number | undefined) = props.experience.listOfExpInstances.find(instance => instance.gameCode === props.gameCode)?.gameStep;
-    if(currentGameStep === undefined)
-        return;
 
-    const currentQuiz : Quiz = props.experience.listOfGames[currentGameStep] as Quiz;
+    if(props.currentGameStep === undefined)
+    { console.log("not yet rendered")
+    return;
+    }
+    console.log("current Game Step" + props.currentGameStep);
+
+    const currentQuiz : Quiz = props.experience.listOfGames[props.currentGameStep] as Quiz;
 
     // Antwort speichern
     const handleAnswerChange = (questionId: string, answer: string) => {
@@ -32,7 +33,7 @@ export default function QuizGame(props: Readonly<Props>) {
     // QuizGame auswerten
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault();
-
+        console.log("SUUUUUUUUUUUUUUUUUUBMIT")
         // Calculate the number of correct answers
         let points = 0;
         currentQuiz.listOfQuizElements.forEach((q) => {
@@ -40,8 +41,7 @@ export default function QuizGame(props: Readonly<Props>) {
                 points++;
             }
         });
-        props.goToNextGame();
-        navigate("/Points", { state: { points } });
+        props.goToNextGame(points);
     };
 
     const allAnswered = currentQuiz.listOfQuizElements.every((q) => selectedAnswers[q.id]);
