@@ -1,5 +1,6 @@
 import {useState} from "react";
 import axios from "axios";
+import {useNavigate} from "react-router";
 
 type Props = {
     startGame: (value: string) => void;
@@ -7,6 +8,7 @@ type Props = {
 
 export default function WelcomeUser(props: Props) {
 
+    const navigate = useNavigate();
     const [gameCode, setGameCode] = useState("");
     const [error, setError] = useState("");
     console.log("In welcome User")
@@ -50,6 +52,9 @@ export default function WelcomeUser(props: Props) {
             {error && <p style={{ color: "red" }}>{error}</p>}
             <div>
                 <button onClick={handleStartGame}>Erlebnis starten</button>
+            </div>
+            <div>
+                <button onClick={() => navigate("/login")}>Login as Designer</button>
             </div>
 
         </>

@@ -1,5 +1,5 @@
-import {Experience} from "../../types/Experience.ts";
-import {GameOption} from "../../types/GameOption.ts";
+import {Experience} from "../../types/designer/Experience.ts";
+import {GameOption} from "../../types/designer/GameOption.ts";
 import QuizGame from "./QuizGame.tsx";
 
 type Props = {

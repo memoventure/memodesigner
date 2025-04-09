@@ -1,4 +1,4 @@
-package memomeals.backend.experiences.expection;
+package memomeals.backend.expection;
 
 import memomeals.backend.experiences.dto.CustomErrorMessage;
 import org.springframework.http.HttpStatus;

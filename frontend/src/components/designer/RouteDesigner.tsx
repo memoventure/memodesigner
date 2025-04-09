@@ -5,7 +5,7 @@ import ExperienceDesigner from "./ExperienceDesigner.tsx";
 import ExperienceSetup from "./ExperienceSetup.tsx";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {Experience} from "../../types/Experience.ts";
+import {Experience} from "../../types/designer/Experience.ts";
 import QuizDesigner from "./QuizDesigner.tsx";
 
 export default function RouteDesigner() {

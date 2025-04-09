@@ -1,4 +1,4 @@
-import {QuizQuestionElement} from "../types/QuizQuestionElement.ts";
+import {QuizQuestionElement} from "../types/designer/QuizQuestionElement.ts";
 import {useEffect, useState} from "react";
 
 type Props = {

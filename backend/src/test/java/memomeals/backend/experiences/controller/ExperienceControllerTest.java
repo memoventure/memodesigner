@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.oidcLogin;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -31,6 +33,7 @@ public class ExperienceControllerTest {
     ExperienceRepository expRepository;
 
     @Test
+    @WithMockUser
     void getAllExperiences() throws Exception {
 
         //GIVEN
@@ -89,6 +92,7 @@ public class ExperienceControllerTest {
     }
 
     @Test
+    @WithMockUser
     void expectEmptyListOnGet() throws Exception {
         //GIVEN
 
@@ -107,6 +111,7 @@ public class ExperienceControllerTest {
 
     @Test
     @DirtiesContext
+    @WithMockUser
     void getById() throws Exception {
 
         //GIVEN
@@ -165,6 +170,7 @@ public class ExperienceControllerTest {
 
     @Test
     @DirtiesContext
+    @WithMockUser
     void getByIdTest_whenInvalidId_thenStatus404() throws Exception {
         //GIVEN
         //WHEN
@@ -177,11 +183,15 @@ public class ExperienceControllerTest {
 
     @Test
     @DirtiesContext
+    @WithMockUser
     void postExperience() throws Exception {
         //GIVEN
 
         //WHEN
-        mockMvc.perform(post("/api/experiences")
+        mockMvc.perform(post("/api/experiences").with(oidcLogin().userInfoToken(token -> token
+                                        .claim("login", "testUser")
+                                        .claim("avatar_url", "testAvatarUrl")
+                                ))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -245,6 +255,7 @@ public class ExperienceControllerTest {
 
     @Test
     @DirtiesContext
+    @WithMockUser
     void putExperience() throws Exception {
         //GIVEN
         //setup Experience Instance
@@ -328,6 +339,7 @@ public class ExperienceControllerTest {
 
     @Test
     @DirtiesContext
+    @WithMockUser
     void deleteExperienceById() throws Exception {
         //GIVEN
         //setup Experience Instance
@@ -357,6 +369,7 @@ public class ExperienceControllerTest {
 
     @Test
     @DirtiesContext
+    @WithMockUser
     void deleteWorkout_shouldReturnNotFound_whenExperienceDoesNotExist() throws Exception {
 
         mockMvc.perform(delete("/api/experiences/{id}", "nonexistent-id"))

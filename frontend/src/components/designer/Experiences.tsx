@@ -1,6 +1,6 @@
 import {useNavigate} from "react-router";
 import ExperienceCard from "./ExperienceCard.tsx";
-import {Experience} from "../../types/Experience.ts";
+import {Experience} from "../../types/designer/Experience.ts";
 
 type Props = {
     experiences: Experience[],

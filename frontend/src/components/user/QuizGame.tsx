@@ -1,7 +1,7 @@
 import QuizElement from "../QuizElement.tsx"
-import {Quiz} from "../../types/Quiz.ts"
+import {Quiz} from "../../types/designer/Quiz.ts"
 import {FormEvent, useState} from "react";
-import {Experience} from "../../types/Experience.ts";
+import {Experience} from "../../types/designer/Experience.ts";
 
 type Props = {
     experience: Experience,

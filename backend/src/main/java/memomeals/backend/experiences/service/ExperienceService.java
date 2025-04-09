@@ -3,7 +3,7 @@ package memomeals.backend.experiences.service;
 import lombok.RequiredArgsConstructor;
 import memomeals.backend.experiences.dto.NewExperienceDto;
 import memomeals.backend.experiences.dto.UpdateExperienceDto;
-import memomeals.backend.experiences.expection.NoSuchExperienceException;
+import memomeals.backend.expection.NoSuchExperienceException;
 import memomeals.backend.experiences.model.Experience;
 import memomeals.backend.experiences.repository.ExperienceRepository;
 import memomeals.backend.utils.IdService;
