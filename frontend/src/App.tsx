@@ -7,6 +7,7 @@ import {useEffect, useState} from "react";
 import {AppUser} from "./types/appuser/AppUser.ts";
 import axios from "axios";
 import ProtectedRoute from "./components/designer/ProtectedRoute.tsx";
+import { Button } from "@/components/ui/button"
 
 function App() {
 
@@ -49,7 +50,7 @@ function App() {
             <div>
                 {user ? (
                     <>
-                    <button onClick={logout}>Logout</button>
+                    <Button variant="secondary" onClick={logout}>Logout</Button>
                 </>
                 ) : null}
 

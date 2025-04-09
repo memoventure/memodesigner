@@ -1,6 +1,8 @@
 import {useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router";
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 
 type Props = {
     startGame: (value: string) => void;
@@ -38,7 +40,7 @@ export default function WelcomeUser(props: Props) {
             <h1>Herzlich Willkommen bei memomeals</h1>
 
             {/* Game Code Input */}
-            <input
+            <Input
                 type="text"
                 placeholder="Spiel-Code eingeben"
                 value={gameCode}
@@ -51,10 +53,10 @@ export default function WelcomeUser(props: Props) {
             {/* Display error message if invalid */}
             {error && <p style={{ color: "red" }}>{error}</p>}
             <div>
-                <button onClick={handleStartGame}>Erlebnis starten</button>
+                <Button onClick={handleStartGame}>Erlebnis starten</Button>
             </div>
             <div>
-                <button onClick={() => navigate("/login")}>Login as Designer</button>
+                <Button onClick={() => navigate("/login")}>Login as Designer</Button>
             </div>
 
         </>

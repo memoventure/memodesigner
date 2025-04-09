@@ -1,7 +1,8 @@
 import QuizElement from "../QuizElement.tsx"
-import {Quiz} from "../../types/designer/Quiz.ts"
+import {Quiz} from "@/types/designer/Quiz.ts"
 import {FormEvent, useState} from "react";
-import {Experience} from "../../types/designer/Experience.ts";
+import {Experience} from "@/types/designer/Experience.ts";
+import { Button } from "@/components/ui/button"
 
 type Props = {
     experience: Experience,
@@ -59,7 +60,7 @@ export default function QuizGame(props: Readonly<Props>) {
                         onAnswerChange={handleAnswerChange}
                     />
                 ))}
-                <button type="submit" disabled={!allAnswered}>Speichern</button>
+                <Button type="submit" disabled={!allAnswered}>Speichern</Button>
             </form>
         </>
     )

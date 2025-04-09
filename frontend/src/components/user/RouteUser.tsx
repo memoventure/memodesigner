@@ -2,7 +2,7 @@ import {Route, Routes, useNavigate} from "react-router";
 import WelcomeUser from "./WelcomeUser.tsx";
 import Points from "./Points.tsx";
 import {useState} from "react";
-import {Experience} from "../../types/designer/Experience.ts";
+import {Experience} from "@/types/designer/Experience.ts";
 import axios from "axios";
 import Game from "./Game.tsx";
 
@@ -68,7 +68,7 @@ export default function RouteUser() {
 
     return (
         <div>
-            <Routes>4
+            <Routes>
                 <Route path="game" element={<Game key={currentGameCode} experience={experience} gameIndex={currentGameIndex} gameCode={currentGameCode} goToNextGame={goToNextGame}/>} />
                 <Route path="points" element={<Points points={currentPoints} name={experience.name} />} />
             </Routes>
