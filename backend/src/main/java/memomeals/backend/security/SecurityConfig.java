@@ -1,5 +1,6 @@
 package memomeals.backend.security;
 
+import memomeals.backend.appuser.AppUserRole;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,15 +24,15 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(a -> a
-                        .requestMatchers("/api/auth/me").permitAll()
+                        .requestMatchers("/api/auth/me").authenticated()
+                        .requestMatchers("/api/designer/*").hasAuthority(AppUserRole.USER.toString())
                         .anyRequest().permitAll()
                 )
-                .logout(logout -> logout.logoutUrl("/api/users/logout")
-                        .logoutSuccessHandler((request, response, authentication) -> response.setStatus(200)))
+                .logout(l -> l.logoutSuccessUrl(appUrl))
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
                 .exceptionHandling(e -> e
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
-                .oauth2Login(o -> o.defaultSuccessUrl(appUrl));
+                .oauth2Login(o -> o.defaultSuccessUrl(appUrl + "/designer/dashboard"));
         return http.build();
     }
 }

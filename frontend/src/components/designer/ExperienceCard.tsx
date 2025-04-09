@@ -1,6 +1,6 @@
 import axios from "axios";
-import {Experience} from "../../types/Experience.ts";
-import {ExperienceInstance} from "../../types/ExperienceInstance.ts";
+import {Experience} from "../../types/designer/Experience.ts";
+import {ExperienceInstance} from "../../types/designer/ExperienceInstance.ts";
 
 type Props = {
     experience: Experience,

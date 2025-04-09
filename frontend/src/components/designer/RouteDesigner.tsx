@@ -5,7 +5,7 @@ import ExperienceDesigner from "./ExperienceDesigner.tsx";
 import ExperienceSetup from "./ExperienceSetup.tsx";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {Experience} from "../../types/Experience.ts";
+import {Experience} from "../../types/designer/Experience.ts";
 import QuizDesigner from "./QuizDesigner.tsx";
 
 export default function RouteDesigner() {
@@ -49,15 +49,6 @@ export default function RouteDesigner() {
             });
     }
 
-    function logout()
-    {
-        const host = window.location.host === 'localhost:5173' ? 'http://localhost:8080' : window.location.origin
-
-        window.open(host + '/logout', '_self')
-        axios.post("api/users/logout");
-        navigate("/");
-    }
-
     return (
         <div>
             <Routes>
@@ -67,7 +58,6 @@ export default function RouteDesigner() {
                 <Route path=":id/*" element={<ExperienceDesigner onSaveExperience={fetchExperiences}/>} />
                 <Route path="quiz" element={<QuizDesigner/>}/>
             </Routes>
-            <button onClick={logout}>Logout</button>
             <Outlet />
         </div>
     );

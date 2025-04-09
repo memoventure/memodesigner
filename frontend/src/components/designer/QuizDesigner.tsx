@@ -1,8 +1,8 @@
 import { useState } from "react";
-import {QuizQuestionElement} from "../../types/QuizQuestionElement.ts";
-import {Quiz} from "../../types/Quiz.ts";
+import {QuizQuestionElement} from "../../types/designer/QuizQuestionElement.ts";
+import {Quiz} from "../../types/designer/Quiz.ts";
 import {useLocation, useNavigate} from "react-router";
-import {Experience} from "../../types/Experience.ts";
+import {Experience} from "../../types/designer/Experience.ts";
 import axios from "axios";
 
 export default function QuizDesigner() {

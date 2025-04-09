@@ -1,10 +1,10 @@
 import {useEffect, useState} from "react";
-import {Experience} from "../../types/Experience.ts"
+import {Experience} from "../../types/designer/Experience.ts"
 import axios from 'axios';
 import ExperienceStep from "./ExperienceStep.tsx";
 import {useNavigate, useParams} from "react-router";
-import {Game} from "../../types/Game.ts";
-import {GameOption} from "../../types/GameOption.ts";
+import {Game} from "../../types/designer/Game.ts";
+import {GameOption} from "../../types/designer/GameOption.ts";
 
 type Props = {
     onSaveExperience: () => void;
