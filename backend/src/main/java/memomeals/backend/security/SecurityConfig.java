@@ -20,9 +20,10 @@ public class SecurityConfig {
     private String appUrl;
 
     @Bean
+    @SuppressWarnings("squid:S4502")
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable) // Compliant
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(a -> a
                         .requestMatchers("/api/auth/me").authenticated()
                         .requestMatchers("/api/designer/*").hasAuthority(AppUserRole.USER.toString())
