@@ -1,29 +1,23 @@
 import QuizElement from "../QuizElement.tsx"
 import {Quiz} from "../../types/designer/Quiz.ts"
 import {FormEvent, useState} from "react";
-import {Experience} from "../../types/designer/Experience.ts";
+import {useOutletContext} from "react-router";
+import {UserLayoutContext} from "../../types/appuser/UserLayoutContext.ts";
 
-type Props = {
-    experience: Experience,
-    currentGameStep: number,
-    gameCode: string | undefined,
-    goToNextGame: (value: number) => void
-}
-
-export default function QuizGame(props: Readonly<Props>) {
+export default function QuizGame() {
 
     console.log("in quiz game")
 
     const [selectedAnswers, setSelectedAnswers] = useState<{ [key: string]: string }>({});
+    const { experience, currentGameIndex, goToNextGame } = useOutletContext<UserLayoutContext>();
 
-
-    if(props.currentGameStep === undefined)
+    if(currentGameIndex === undefined || experience === null)
     { console.log("not yet rendered")
     return;
     }
-    console.log("current Game Step" + props.currentGameStep);
+    console.log("current Game Step" + currentGameIndex);
 
-    const currentQuiz : Quiz = props.experience.listOfGames[props.currentGameStep] as Quiz;
+    const currentQuiz : Quiz = experience.listOfGames[currentGameIndex] as Quiz;
 
     // Antwort speichern
     const handleAnswerChange = (questionId: string, answer: string) => {
@@ -41,7 +35,7 @@ export default function QuizGame(props: Readonly<Props>) {
                 points++;
             }
         });
-        props.goToNextGame(points);
+        goToNextGame(points);
     };
 
     const allAnswered = currentQuiz.listOfQuizElements.every((q) => selectedAnswers[q.id]);
@@ -49,11 +43,11 @@ export default function QuizGame(props: Readonly<Props>) {
     return(
         <>
             <h1>Quiz</h1>
-            <h2>{props.experience.name}</h2>
+            <h2>{experience.name}</h2>
             <form onSubmit={handleSubmit}>
-                {currentQuiz.listOfQuizElements.map((q) => (
+                {currentQuiz.listOfQuizElements.map((q, index) => (
                     <QuizElement
-                        key={q.id}
+                        key={index}
                         question={q}
                         selectedAnswer={selectedAnswers[q.id] || ""}
                         onAnswerChange={handleAnswerChange}

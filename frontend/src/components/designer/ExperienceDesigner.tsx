@@ -1,65 +1,52 @@
 import {useEffect, useState} from "react";
 import {Experience} from "../../types/designer/Experience.ts"
-import axios from 'axios';
 import ExperienceStep from "./ExperienceStep.tsx";
 import {useNavigate, useParams} from "react-router";
 import {Game} from "../../types/designer/Game.ts";
 import {GameOption} from "../../types/designer/GameOption.ts";
+import {useDesigner} from "../../hooks/useDesigner.ts";
 
-type Props = {
-    onSaveExperience: () => void;
-}
 
-export default function ExperienceDesigner(props: Readonly<Props>) {
+export default function ExperienceDesigner() {
 
     const navigate = useNavigate();
-    const params = useParams();
-    const id: string | undefined = params.id;
+    const {id} = useParams();
+    const {experiences, updateExperience, getExperienceById} = useDesigner();
 
     const [currentExp, setCurrentExp] = useState<Experience | null>(null);
-
     const [selectedGame, setSelectedGame] = useState<string>("");
 
-    const [experienceName, setExperienceName] = useState<string>(currentExp?.name || "");
-
-    // Fetch experiences when the component mounts
     useEffect(() => {
         if (!id) {
-            navigate("/designer/dashboard", {replace: true});
+            navigate("/designer/dashboard", { replace: true });
             return;
         }
 
-        axios
-            .get(`/api/experiences/${id}`)
-            .then((response) => {
-                setCurrentExp(response.data);
-                setExperienceName(response.data.name)
-            })
-            .catch((error) => {
-                console.error("Error fetching experiences", error);
-                navigate("/designer/dashboard", { replace: true });
-            });
+        // Warte bis experiences geladen sind
+        if (!experiences) {
+            return;
+        }
 
-    }, [id, navigate]);
+        const loadedExp = getExperienceById(id);
+        if (!loadedExp) {
+            navigate("/designer/dashboard", { replace: true });
+        } else {
+            setCurrentExp(loadedExp);
+        }
 
-    // Show loading state until experience is fetched
-    if (currentExp === null) {
+    }, [id, experiences, navigate, getExperienceById]);
+
+    if (!experiences) {
         return <p>Lade Erlebnis...</p>;
     }
 
-    // Handle saving the experience
+    if (!currentExp) {
+        return <p>Erlebnis nicht gefunden.</p>;
+    }
+
+    // Handle updating the experience
     const saveExperience = () => {
-        if (currentExp) {
-            axios
-                .put(`/api/experiences/${currentExp.id}`, { ...currentExp, name: experienceName })
-                .then((response) => {
-                    console.log("Erlebnis updated:", response.data);
-                    props.onSaveExperience();
-                })
-                .catch((error) => {
-                    console.error("Error saving experience", error);
-                });
-        }
+        updateExperience(currentExp);
     };
 
     const gameOptions = Object.values(GameOption);
@@ -93,62 +80,62 @@ export default function ExperienceDesigner(props: Readonly<Props>) {
             return; // Unknown type, do nothing
         }
 
-        setCurrentExp({
+        const updatedExp = {
             ...currentExp,
-            listOfGames: [...(currentExp.listOfGames || []), newGame]
-        });
+            listOfGames: [...currentExp.listOfGames, newGame]
+        };
+
+        setCurrentExp(updatedExp);
+        updateExperience(updatedExp);
     }
 
+
     function handleStepAction(action: "moveUp" | "moveDown" | "edit" | "delete", stepNumber: number) {
-        if (action === "moveUp") {
-            console.log(`Moving step  up`);
-            // implement step up logic
-        } else if (action === "moveDown") {
-            console.log(`Moving step  down`);
-            // Implement move-down logic
-        } else if (action === "delete") {
-            console.log(`Deleting step`);
-            if (!currentExp) return;
+        if (!currentExp) return;
 
-            setCurrentExp({
-                ...currentExp,
-                listOfGames: currentExp.listOfGames.filter((_, i) => i !== (stepNumber-1))
-            });
-        } else if (action === "edit") {
-            if (!currentExp) return;
+        const games = [...currentExp.listOfGames];
 
-            const gameToEdit = currentExp.listOfGames[stepNumber - 1];
-
-            if (gameToEdit.type === GameOption.QUIZ) {
-                navigate("/designer/quiz", {
-                    state: {
-                        experience: currentExp,
-                        quiz: gameToEdit,
-                    },
-                });
-            }
+        if (action === "moveUp" && stepNumber > 0) {
+            [games[stepNumber - 1], games[stepNumber]] = [games[stepNumber], games[stepNumber - 1]];
         }
+
+        if (action === "moveDown" && stepNumber < games.length - 1) {
+            [games[stepNumber], games[stepNumber + 1]] = [games[stepNumber + 1], games[stepNumber]];
+        }
+
+        if (action === "delete") {
+            games.splice(stepNumber, 1);
+        }
+
+        if (action === "edit") {
+            navigate(`/designer/experiences/${id}/game/${stepNumber}`);
+            return;
+        }
+
+        const updatedExp = {
+            ...currentExp,
+            listOfGames: games
+        };
+
+        setCurrentExp(updatedExp);
+        updateExperience(updatedExp);
     }
 
     return (
         <>
             <div>
                 <h1>Erlebnis Designer</h1>
-                <button onClick={() => navigate("/designer/dashboard")}>Dashboard</button>
-                <button onClick={() => navigate("/designer/experiences")}>Übersicht</button>
                 <div>
                     {/* Experience Name */}
                     <label>
                         Erlebnis Name:
                         <input
                             type="text"
-                            value={experienceName}
+                            value={currentExp.name}
                             onChange={(e) => {
-                                setExperienceName(e.target.value);
-                                console.log(e.target.value)
                                 setCurrentExp({
                                     ...currentExp,
-                                    name: experienceName
+                                    name: e.target.value
                                 });
                             }
                             }
@@ -159,8 +146,8 @@ export default function ExperienceDesigner(props: Readonly<Props>) {
                 <div>
                     {currentExp?.listOfGames?.length > 0 &&
                         currentExp.listOfGames.map((game, index) => (<div>
-                                <ExperienceStep key={game.id} stepNumber={index + 1} name={game.name}
-                                                handleButtonClick={(action) => handleStepAction(action, index + 1)}/>
+                                <ExperienceStep key={index} stepNumber={index} name={game.name}
+                                                handleButtonClick={(action) => handleStepAction(action, index)}/>
                             </div>
                         ))
                     }

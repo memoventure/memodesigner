@@ -1,28 +1,34 @@
 import { useState } from "react";
 import {QuizQuestionElement} from "../../types/designer/QuizQuestionElement.ts";
 import {Quiz} from "../../types/designer/Quiz.ts";
-import {useLocation, useNavigate} from "react-router";
+import {useNavigate} from "react-router";
 import {Experience} from "../../types/designer/Experience.ts";
-import axios from "axios";
+import {useDesigner} from "../../hooks/useDesigner.ts";
 
-export default function QuizDesigner() {
+type Props = {
+    experience: Experience,
+    gameStep: number
 
-    const location = useLocation();
+}
+
+export default function QuizDesigner(props: Props) {
+
     const navigate = useNavigate();
+    const { updateExperience } = useDesigner();
 
-    // Extract experience and quiz from the location state
-    const { experience, quiz }: { experience: Experience; quiz: Quiz } = location.state || {};
+    // Initial quiz aus dem Experience-Array laden
+    const [updatedQuiz, setUpdatedQuiz] = useState<Quiz>(
+        props.experience.listOfGames[props.gameStep] as Quiz
+    );
 
-    // Redirect if no experience or quiz is provided
-    if (!experience || !quiz) {
-        console.error("Experience or quiz not found");
-        navigate("/designer/dashboard");
+    // Redirect if gameStep is out of range
+    if (props.gameStep >= props.experience.listOfGames.length) {
+        console.error("GameStep out of range");
+        navigate(`/designer/experiences/${props.experience.id}/`);
+        return null;
     }
 
-    // State to handle updated quiz
-    const [updatedQuiz, setUpdatedQuiz] = useState<Quiz>(quiz);
-
-    // Update quiz name (prev holds the most recent version of quiz before the update)
+    // Quiz-Name aktualisieren
     const updateQuizName = (name: string) => {
         setUpdatedQuiz((prev) => ({ ...prev, name }));
     };
@@ -72,23 +78,15 @@ export default function QuizDesigner() {
         }
 
         const updatedExperience = {
-            ...experience,
-            listOfGames: experience.listOfGames.map((game) =>
+            ...props.experience,
+            listOfGames: props.experience.listOfGames.map((game) =>
                 game.id === updatedQuiz.id ? updatedQuiz : game // Replace the old quiz with the updated one
             ),
         };
 
-        // Call API to save updated experience
-        axios.put(`/api/experiences/${experience.id}`, updatedExperience)
-            .then((response) => {
-                console.log("Experience updated:", response.data);
-            })
-            .catch((error) => {
-                console.error("Error updating experience:", error);
-            });
-
+        updateExperience(updatedExperience);
     };
-
+    console.log("in Quiz designer 3")
     return (
         <div>
             <h2>Quiz Designer</h2>
@@ -109,7 +107,7 @@ export default function QuizDesigner() {
                     <p>🚀 Noch keine Fragen vorhanden. Füge deine erste Frage hinzu!</p>
                 ) : (
                 updatedQuiz.listOfQuizElements.map((q, qIndex) => (
-                <div key={q.id} style={{ border: "1px solid #ccc", padding: "10px", margin: "10px 0" }}>
+                <div key={qIndex} style={{ border: "1px solid #ccc", padding: "10px", margin: "10px 0" }}>
                     <h3>Frage {qIndex + 1}</h3>
                     <input
                         type="text"
@@ -128,7 +126,7 @@ export default function QuizDesigner() {
 
                     <h4>Falsche Antworten</h4>
                     {q.listOfWrongAnswers.map((answer, index) => (
-                        <div key={index}>
+                        <div key={`${q.id}-wrong-answer-${index}`}>
                             <input
                                 type="text"
                                 placeholder="Falsche Antwort"
@@ -149,7 +147,7 @@ export default function QuizDesigner() {
             {/* Buttons */}
             <button onClick={addQuestion}>➕ Neue Frage hinzufügen</button>
             <button onClick={saveQuiz}>💾 Quiz speichern</button>
-            <button onClick={() => navigate(`/designer/${experience.id}`)}>💾 Zurück zum Erlebnis</button>
+            <button onClick={() => navigate(`/designer/experiences/${props.experience.id}`)}>💾 Zurück zum Erlebnis</button>
         </div>
     );
 }

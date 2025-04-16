@@ -1,37 +1,45 @@
-import {useNavigate} from "react-router";
 import ExperienceCard from "./ExperienceCard.tsx";
 import {Experience} from "../../types/designer/Experience.ts";
+import {useDesigner} from "../../hooks/useDesigner.ts";
+import {useNavigate} from "react-router";
 
-type Props = {
-    experiences: Experience[],
-    onExpChange: () => void
-}
-
-
-export default function Experiences(props: Readonly<Props>) {
+export default function Experiences() {
+    const { experiences, addExperience } = useDesigner();
     const navigate = useNavigate();
 
-
-    const handleEdit = (id: string) =>
+    const newExperience = () =>
     {
-        navigate(`/designer/${id}`)
-    }
+        const newExp: Experience = {
+            id: "",
+            name: "Neues Erlebnis",
+            listOfGames: [],
+            listOfExpInstances: []
+        };
+
+        addExperience(newExp)
+            .then((createdExp) => {
+                console.log("Erlebnis erfolgreich angelegt:", createdExp);
+                navigate(`/designer/experiences/${createdExp.id}`);
+            })
+            .catch((error) => {
+                console.error("Fehler beim Anlegen:", error);
+            });
+    };
 
     return (
         <>
             <div>
                 <h1>Erlebnisse verwalten</h1>
             </div>
+
             <div>
-                <button onClick={() => navigate("/designer/dashboard")}>Dashboard</button>
-                <button onClick={() => navigate("/designer/setup")}>Neues Erlebnis erstellen</button>
-            </div>
-            <div>
-                {props.experiences.map((experience) =>
-                    (<ExperienceCard key={experience.id} onEdit={() => handleEdit(experience.id)}  onChange={props.onExpChange} experience={experience}/>))
+                {experiences && experiences.map((experience) =>
+                    (<ExperienceCard key={experience.id} experience={experience}/>))
             }
             </div>
-
+            <div>
+                <button onClick={newExperience}>Neues Erlebnis erstellen</button>
+            </div>
         </>
     )
 }

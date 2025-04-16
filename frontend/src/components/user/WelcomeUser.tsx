@@ -1,12 +1,8 @@
 import {useState} from "react";
-import axios from "axios";
-import {useNavigate} from "react-router";
+import {useNavigate, useOutletContext} from "react-router";
 
-type Props = {
-    startGame: (value: string) => void;
-};
-
-export default function WelcomeUser(props: Props) {
+export default function WelcomeUser() {
+    const { startGame } = useOutletContext<{ startGame: (code: string) => void; }>();
 
     const navigate = useNavigate();
     const [gameCode, setGameCode] = useState("");
@@ -15,19 +11,8 @@ export default function WelcomeUser(props: Props) {
 
     const handleStartGame = () => {
         console.log("In handleStartGame with code " + gameCode)
-        if (gameCode !== "") { //validGameCodes.includes(gameCode.toUpperCase())) {
-
-            axios
-                .get(`/api/experiences/instances/${gameCode}`)
-                .then(() => {
-                    console.log("Starting Game")
-                    props.startGame(gameCode);
-                })
-                .catch((error) => {
-                    console.error("Error fetching experiences XXXXXXXXXXX", error);
-                });
-
-
+        if (gameCode !== "") {
+            startGame(gameCode);
         } else {
             setError("❌ Bitte gebe einen Code ein.");
         }
@@ -54,7 +39,7 @@ export default function WelcomeUser(props: Props) {
                 <button onClick={handleStartGame}>Erlebnis starten</button>
             </div>
             <div>
-                <button onClick={() => navigate("/login")}>Login as Designer</button>
+                <button onClick={() => navigate("/designer")}>Login as Designer</button>
             </div>
 
         </>

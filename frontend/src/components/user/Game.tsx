@@ -1,20 +1,13 @@
-import {Experience} from "../../types/designer/Experience.ts";
 import {GameOption} from "../../types/designer/GameOption.ts";
 import QuizGame from "./QuizGame.tsx";
+import {useOutletContext} from "react-router";
+import {UserLayoutContext} from "../../types/appuser/UserLayoutContext.ts";
 
-type Props = {
-    experience: Experience,
-    gameIndex: number,
-    gameCode: string | undefined,
-    goToNextGame: (value: number) => void
-}
-
-export default function Game(props: Readonly<Props>) {
-
+export default function Game() {
+    const { experience, currentGameIndex } = useOutletContext<UserLayoutContext>();
     return(
         <>
-            {props.experience && props.gameIndex >= 0 && props.experience.listOfGames[props.gameIndex].type === GameOption.QUIZ && <QuizGame key={props.gameCode} currentGameStep={props.gameIndex} experience={props.experience
-            } gameCode={props.gameCode} goToNextGame={props.goToNextGame} />}
+            {experience && currentGameIndex >= 0 && experience.listOfGames[currentGameIndex].type === GameOption.QUIZ && <QuizGame/>}
         </>
     )
 }

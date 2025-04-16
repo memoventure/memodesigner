@@ -1,12 +1,19 @@
 import './App.css'
-import {Route, Routes} from "react-router";
-import RouteDesigner from "./components/designer/RouteDesigner.tsx";
-import RouteUser from "./components/user/RouteUser.tsx";
+import {Navigate, Route, Routes} from "react-router";
 import Login from "./components/Login.tsx";
 import {useEffect, useState} from "react";
 import {AppUser} from "./types/appuser/AppUser.ts";
 import axios from "axios";
 import ProtectedRoute from "./components/designer/ProtectedRoute.tsx";
+import WelcomeUser from "./components/user/WelcomeUser.tsx";
+import Game from "./components/user/Game.tsx";
+import Points from "./components/user/Points.tsx";
+import Dashboard from "./components/designer/Dashboard.tsx";
+import UserLayout from "./components/user/UserLayout.tsx";
+import DesignerLayout from "./components/designer/DesignerLayout.tsx";
+import Experiences from "./components/designer/Experiences.tsx";
+import ExperienceDesigner from "./components/designer/ExperienceDesigner.tsx";
+import GameDesigner from "./components/designer/GameDesigner.tsx";
 
 function App() {
 
@@ -15,13 +22,6 @@ function App() {
     useEffect(() => {
         getUser()
     }, []);
-
-    function login() {
-        const host = window.location.host === 'localhost:5173' ? 'http://localhost:8080': window.location.origin
-        console.log(window.location.host)
-        window.open(host + '/oauth2/authorization/github', '_self')
-        // everything below won't be executed because we are leaving react and reloading again when coming back
-    }
 
     function getUser() {
         axios.get("/api/auth/me")
@@ -39,12 +39,26 @@ function App() {
     return (
         <>
             <Routes>
-                <Route path="/*" element={<RouteUser/>}/>
-                <Route path="/login" element={<Login onLogin={login}/>}/>
-                <Route path="*" element={<h1>Page Not Found</h1>}/>
-                <Route element={<ProtectedRoute user={user}/>}>
-                    <Route path="/designer/*" element={<RouteDesigner/>}/>
+                {/* USER ROUTES */}
+                <Route path="/" element={<UserLayout />}>
+                    <Route index element={<WelcomeUser />} />
+                    <Route path="game" element={<Game />} />
+                    <Route path="points" element={<Points />} />
                 </Route>
+
+                {/* DESIGNER ROUTES */}
+                <Route path="/designer" element={<DesignerLayout />}>
+                    <Route index element={<Login />} />
+                    <Route element={<ProtectedRoute user={user}/>}>
+                        <Route path="dashboard" element={<Dashboard />} />
+                        <Route path="experiences" element={<Experiences/>} />
+                        <Route path="experiences/:id" element={<ExperienceDesigner/>} />
+                        <Route path="experiences/:id/game/:gameId" element={<GameDesigner/>}/>
+                    </Route>
+                </Route>
+
+                {/* Fallback */}
+                <Route path="*" element={<Navigate to="/" />} />
             </Routes>
             <div>
                 {user ? (

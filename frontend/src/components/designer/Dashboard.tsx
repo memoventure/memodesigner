@@ -1,26 +1,49 @@
 import {useNavigate} from "react-router";
+import {useDesigner} from "../../hooks/useDesigner.ts";
+import {Experience} from "../../types/designer/Experience.ts";
 
-type Props = {
-    numberOfExperiences: number,
-}
 
-export default function Dashboard(props: Props) {
+export default function Dashboard() {
 
     const navigate = useNavigate();
-    return (
+    console.log("In Dashboard")
+    const { experiences, addExperience } = useDesigner();
+
+    const newExperience = () =>
+    {
+        const newExp: Experience = {
+            id: "",
+            name: "Neues Erlebnis",
+            listOfGames: [],
+            listOfExpInstances: []
+        };
+
+        addExperience(newExp)
+            .then((createdExp) => {
+                console.log("Erlebnis erfolgreich angelegt:", createdExp);
+                // z.B. direkt aufrufen, um Details zu öffnen:
+                navigate(`/designer/experiences/${createdExp.id}`);
+            })
+            .catch((error) => {
+                console.error("Fehler beim Anlegen:", error);
+            });
+    };
+
+    console.log("In New Experience")
+    return ( experiences ?
         <>
             <div>
                 <h1>Herzlich Willkommen beim Erlebnis-Designer</h1>
             </div>
             <div>
-                <button onClick={() => navigate("/designer/setup")}>Erlebnis erstellen</button>
-                <button  onClick={() => navigate("/designer/experiences")}>Erlebnisse verwalten</button>
+                <button onClick={newExperience}>Erlebnis erstellen</button>
+                <button onClick={() => navigate("/designer/experiences")}>Erlebnisse verwalten</button>
             </div>
-            <div style={{ border: "2px solid black", padding: "10px", width: "200px", textAlign: "center" }}>
+            <div style={{ border: "2px solid black", padding: "10px", width: "200px", textAlign: "center", margin: "0 auto"}}>
                 <h2>Deine erstellten Erlebnisse</h2>
-                <p>{props.numberOfExperiences}</p>
+                <p>{experiences?.length}</p>
             </div>
 
-        </>
+        </> : <div>Loading</div>
     )
 }

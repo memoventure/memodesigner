@@ -1,17 +1,18 @@
-import axios from "axios";
 import {Experience} from "../../types/designer/Experience.ts";
-import {ExperienceInstance} from "../../types/designer/ExperienceInstance.ts";
+import {useDesigner} from "../../hooks/useDesigner.ts";
+import {useNavigate} from "react-router";
 
 type Props = {
-    experience: Experience,
-    onEdit: () => void,
-    onChange: () => void;
+    experience: Experience
 }
 
 
 export default function ExperienceCard(props: Readonly<Props>) {
 
-    function deleteExp() {
+    const navigate = useNavigate();
+    const { deleteExperience, generateNewGameCode } = useDesigner();
+
+   /* function deleteExp() {
         axios
             .delete(`/api/experiences/${props.experience.id}`)
             .then(props.onChange)
@@ -37,7 +38,7 @@ export default function ExperienceCard(props: Readonly<Props>) {
                 console.error("Error updating experience:", error);
             });
         props.onChange();
-    }
+    }*/
 
     return (
         <>
@@ -46,9 +47,9 @@ export default function ExperienceCard(props: Readonly<Props>) {
                     <h3 style={{ margin: 0 }}>{props.experience.name}</h3>
                     {/* Buttons */}
                     <div>
-                        <button onClick={props.onEdit}>Bearbeiten</button>
-                        <button onClick={deleteExp}>Löschen</button>
-                        <button onClick={generateGameCode}>Neuen Spielcode generieren</button>
+                        <button onClick={() => navigate(`/designer/experiences/${props.experience.id}`)}>Bearbeiten</button>
+                        <button onClick={() => deleteExperience(props.experience.id)} >Löschen</button>
+                        <button onClick={() => generateNewGameCode(props.experience)}>Neuen Spielcode generieren</button>
                     </div>
                 </div>
             </div>

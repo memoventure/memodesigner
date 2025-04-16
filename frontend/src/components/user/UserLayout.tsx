@@ -1,19 +1,23 @@
-import {Route, Routes, useNavigate} from "react-router";
-import WelcomeUser from "./WelcomeUser.tsx";
-import Points from "./Points.tsx";
-import {useState} from "react";
+import UserHeader from "./UserHeader.tsx";
+import {Outlet, useNavigate} from "react-router";
+import { useState } from "react";
 import {Experience} from "../../types/designer/Experience.ts";
 import axios from "axios";
-import Game from "./Game.tsx";
+import {UserLayoutContext} from "../../types/appuser/UserLayoutContext.ts";
 
-export default function RouteUser() {
+export default function UserLayout() {
+
     //use State aus dem backend laden
     const [experience, setExperience] = useState<Experience | null>(null);
     const [currentGameIndex, setCurrentGameIndex] = useState<number>(0);
     const [currentPoints, setCurrentPoints] = useState<number>(0);
     const [currentGameCode, setCurrentGameCode] = useState<string>();
+
+    const navigate = useNavigate();
+
     const startGame = (code: string | undefined) => {
         console.log("der Code ist: " + code)
+        console.log(currentGameCode);
         if(code!==undefined)
         {
             setCurrentGameCode(code);
@@ -30,8 +34,6 @@ export default function RouteUser() {
                 });
         }
     }
-
-    const navigate = useNavigate();
 
     const goToNextGame = (points: number) =>
     {
@@ -51,27 +53,33 @@ export default function RouteUser() {
             navigate("/points", {state: {points: currentPoints + points}});
         }
     }
-    console.log("___________________________________: ")
-    console.log("Experience name: " + experience?.name)
-    console.log("Game Index: " + currentGameIndex)
-    if (!experience || currentGameIndex === undefined) // || (experience && currentGameIndex))
+
+    const goToPrevGame = () =>
     {
-        console.log("oooooooooooooooooooooooooooooooo");
-        return (
-            <div>
-                <Routes>
-                    <Route path="/" element={<WelcomeUser startGame={startGame}/>} />
-                </Routes>
-            </div>
-        );
+        console.log("goToNextGame called, currentGameIndex:", currentGameIndex);
+        console.log("nextIndex:", currentGameIndex + 1);
+
+        if (!experience) return;
+        const nextIndex = currentGameIndex + 1;
+        setCurrentPoints(currentPoints + currentPoints);
+        console.log("list size:", experience.listOfGames.length);
+        if (nextIndex < experience.listOfGames.length) {
+            setCurrentGameIndex(nextIndex);
+            console.log("navigating to next game");
+            navigate("/game");
+        } else {
+            console.log("navigating to points");
+            navigate("/points", {state: {points: currentPoints + currentPoints}});
+        }
     }
 
+
     return (
-        <div>
-            <Routes>4
-                <Route path="game" element={<Game key={currentGameCode} experience={experience} gameIndex={currentGameIndex} gameCode={currentGameCode} goToNextGame={goToNextGame}/>} />
-                <Route path="points" element={<Points points={currentPoints} name={experience.name} />} />
-            </Routes>
-        </div>
+        <>
+            {experience && <UserHeader gameStep={currentGameIndex} gameLength={experience?.listOfGames.length} onNextStep={goToNextGame} onPrevStep={goToPrevGame}/>}
+            <main>
+                <Outlet context={{ experience, currentGameIndex, startGame, currentPoints, goToNextGame } satisfies UserLayoutContext}/>
+            </main>
+        </>
     );
 }
