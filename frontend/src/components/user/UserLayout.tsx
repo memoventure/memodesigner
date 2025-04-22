@@ -69,6 +69,7 @@ export default function UserLayout() {
             navigate("/game");
         } else {
             console.log("navigating to points");
+            setCurrentGameIndex(nextIndex);
             navigate("/points", {state: {points: currentPoints + currentPoints}});
         }
     }

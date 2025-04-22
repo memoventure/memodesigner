@@ -39,7 +39,7 @@ export default function WelcomeUser() {
                 <button onClick={handleStartGame}>Erlebnis starten</button>
             </div>
             <div>
-                <button onClick={() => navigate("/designer")}>Login as Designer</button>
+                <button onClick={() => navigate("/login")}>Login as Designer</button>
             </div>
 
         </>

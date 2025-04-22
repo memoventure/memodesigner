@@ -68,11 +68,12 @@ export default function ExperienceDesigner() {
                 listOfQuizElements: []
             };
 
-        } else if (type === GameOption.WELCOME) {
+        } else if (type === GameOption.IMGRIDDLE) {
             newGame = {
                 id: crypto.randomUUID(),
                 name: "Welcome Name",
-                type: GameOption.WELCOME,
+                type: GameOption.IMGRIDDLE,
+                description: "Rätsel Beschreibung",
                 imgPath: "img-path"
             };
 

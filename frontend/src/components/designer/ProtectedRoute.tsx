@@ -12,7 +12,7 @@ export default function ProtectedRoute(props: Readonly<Props>) {
             <>
                 <div>You're not authorized to view this page</div>
                 <div>
-                    <button onClick={() => navigate("/designer")}>Login as Designer</button>
+                    <button onClick={() => navigate("/login")}>Login as Designer</button>
                 </div>
             </>)
 

@@ -6,11 +6,13 @@ type Props = {
 }
 
 export default function UserHeader(props: Props) {
+    console.log("Game Step: " + props.gameStep)
     return (
         <>
             <div>
-                {props.gameStep > 0 && <button onClick={() => props.onPrevStep}>◀</button>}
-                {props.gameStep < props.gameLength && <button onClick={() => props.onNextStep}>▶</button>}
+                {/*{props.gameStep > 0 && <button onClick={() => props.onPrevStep}>◀</button>}*/}
+                {/*{props.gameStep < props.gameLength && <button onClick={() => props.onNextStep}>▶</button>}*/}
+                {/*{<p>Spiel {props.gameStep + 1}</p>}*/}
             </div>
         </>
     );

@@ -37,7 +37,6 @@ export default function Dashboard() {
             </div>
             <div>
                 <button onClick={newExperience}>Erlebnis erstellen</button>
-                <button onClick={() => navigate("/designer/experiences")}>Erlebnisse verwalten</button>
             </div>
             <div style={{ border: "2px solid black", padding: "10px", width: "200px", textAlign: "center", margin: "0 auto"}}>
                 <h2>Deine erstellten Erlebnisse</h2>

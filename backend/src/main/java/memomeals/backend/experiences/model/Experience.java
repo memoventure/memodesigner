@@ -12,7 +12,7 @@ public record Experience(
     @Id
     String id,
     String name,
-    List<Quiz> listOfGames,
+    List<Game> listOfGames,
     List<ExperienceInstance> listOfExpInstances) {
 }
 

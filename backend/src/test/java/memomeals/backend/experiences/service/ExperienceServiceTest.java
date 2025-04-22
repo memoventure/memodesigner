@@ -3,10 +3,7 @@ package memomeals.backend.experiences.service;
 import memomeals.backend.experiences.dto.NewExperienceDto;
 import memomeals.backend.experiences.dto.UpdateExperienceDto;
 import memomeals.backend.expection.NoSuchExperienceException;
-import memomeals.backend.experiences.model.Experience;
-import memomeals.backend.experiences.model.ExperienceInstance;
-import memomeals.backend.experiences.model.Quiz;
-import memomeals.backend.experiences.model.QuizElement;
+import memomeals.backend.experiences.model.*;
 import memomeals.backend.experiences.repository.ExperienceRepository;
 import memomeals.backend.utils.IdService;
 import org.junit.jupiter.api.Test;
@@ -37,10 +34,10 @@ public class ExperienceServiceTest {
         QuizElement quizElement = new QuizElement("What is the capital of Italy?", "Rome", wrongAnswerList);
         List<QuizElement> quizElementsList = new ArrayList<>();
         quizElementsList.add(quizElement);
-        Quiz quiz = new Quiz("1", "quiz name", "Quiz", "quiz description", quizElementsList);
+        Quiz quiz = new Quiz("1", "quiz name", quizElementsList);
 
         //setup Experience
-        List<Quiz> listOfQuizzes = new ArrayList<>();
+        List<Game> listOfQuizzes = new ArrayList<>();
         listOfQuizzes.add(quiz);
 
         Experience exp1 = new Experience("1", "Experience name 1", listOfQuizzes, expIstanceList);
@@ -73,10 +70,10 @@ public class ExperienceServiceTest {
         QuizElement quizElement = new QuizElement("What is the capital of Italy?", "Rome", wrongAnswerList);
         List<QuizElement> quizElementsList = new ArrayList<>();
         quizElementsList.add(quizElement);
-        Quiz quiz = new Quiz("1", "quiz name", "Quiz", "quiz description", quizElementsList);
+        Quiz quiz = new Quiz("1", "quiz name", quizElementsList);
 
         //setup Experience
-        List<Quiz> listOfQuizzes = new ArrayList<>();
+        List<Game> listOfQuizzes = new ArrayList<>();
         listOfQuizzes.add(quiz);
 
         String id = "1";
@@ -123,10 +120,10 @@ public class ExperienceServiceTest {
         QuizElement quizElement = new QuizElement("What is the capital of Italy?", "Rome", wrongAnswerList);
         List<QuizElement> quizElementsList = new ArrayList<>();
         quizElementsList.add(quizElement);
-        Quiz quiz = new Quiz("1", "quiz name", "Quiz", "quiz description", quizElementsList);
+        Quiz quiz = new Quiz("1", "quiz name", quizElementsList);
 
         //setup Experience
-        List<Quiz> listOfQuizzes = new ArrayList<>();
+        List<Game> listOfQuizzes = new ArrayList<>();
         listOfQuizzes.add(quiz);
 
         NewExperienceDto newExp = new NewExperienceDto("Experience name 1",  listOfQuizzes, expIstanceList);
@@ -158,10 +155,10 @@ public class ExperienceServiceTest {
         QuizElement quizElement = new QuizElement("What is the capital of Italy?", "Rome", wrongAnswerList);
         List<QuizElement> quizElementsList = new ArrayList<>();
         quizElementsList.add(quizElement);
-        Quiz quiz = new Quiz("1", "quiz name", "Quiz", "quiz description", quizElementsList);
+        Quiz quiz = new Quiz("1", "quiz name", quizElementsList);
 
         //setup Experience
-        List<Quiz> listOfQuizzes = new ArrayList<>();
+        List<Game> listOfQuizzes = new ArrayList<>();
         listOfQuizzes.add(quiz);
         String id = "1";
 
@@ -195,10 +192,10 @@ public class ExperienceServiceTest {
         QuizElement quizElement = new QuizElement("What is the capital of Italy?", "Rome", wrongAnswerList);
         List<QuizElement> quizElementsList = new ArrayList<>();
         quizElementsList.add(quizElement);
-        Quiz quiz = new Quiz("1", "quiz name", "Quiz", "quiz description", quizElementsList);
+        Quiz quiz = new Quiz("1", "quiz name", quizElementsList);
 
         //setup Experience
-        List<Quiz> listOfQuizzes = new ArrayList<>();
+        List<Game> listOfQuizzes = new ArrayList<>();
         listOfQuizzes.add(quiz);
         String id = "1";
 
@@ -230,10 +227,10 @@ public class ExperienceServiceTest {
         QuizElement quizElement = new QuizElement("What is the capital of Italy?", "Rome", wrongAnswerList);
         List<QuizElement> quizElementsList = new ArrayList<>();
         quizElementsList.add(quizElement);
-        Quiz quiz = new Quiz("1", "quiz name", "Quiz", "quiz description", quizElementsList);
+        Quiz quiz = new Quiz("1", "quiz name", quizElementsList);
 
         //setup Experience
-        List<Quiz> listOfQuizzes = new ArrayList<>();
+        List<Game> listOfQuizzes = new ArrayList<>();
         listOfQuizzes.add(quiz);
 
         String gameCode = "123";

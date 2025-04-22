@@ -1,4 +1,4 @@
-import {WelcomeGame} from "./WelcomeGame.ts";
+import {ImgRiddleGame} from "./ImgRiddleGame.ts";
 import {Quiz} from "./Quiz.ts";
 
-export type Game = Quiz | WelcomeGame;
+export type Game = Quiz | ImgRiddleGame;

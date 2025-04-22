@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from "react-router";
 import QuizDesigner from "./QuizDesigner.tsx";
+import ImageRiddleDesigner from "./ImageRiddleDesigner.tsx";
 import { GameOption } from "../../types/designer/GameOption.ts";
 import { useDesigner } from "../../hooks/useDesigner.ts";
 import { useEffect, useState } from "react";
@@ -56,8 +57,8 @@ export default function GameDesigner() {
             {game.type === GameOption.QUIZ && (
                 <QuizDesigner experience={currentExp} gameStep={gameId} />
             )}
-            {game.type === GameOption.WELCOME && (
-                <QuizDesigner experience={currentExp} gameStep={gameId} />
+            {game.type === GameOption.IMGRIDDLE && (
+                <ImageRiddleDesigner experience={currentExp} gameStep={gameId} />
             )}
         </>
     );

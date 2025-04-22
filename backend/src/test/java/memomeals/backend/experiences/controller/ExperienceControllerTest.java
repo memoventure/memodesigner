@@ -1,9 +1,6 @@
 package memomeals.backend.experiences.controller;
 
-import memomeals.backend.experiences.model.Experience;
-import memomeals.backend.experiences.model.ExperienceInstance;
-import memomeals.backend.experiences.model.Quiz;
-import memomeals.backend.experiences.model.QuizElement;
+import memomeals.backend.experiences.model.*;
 import memomeals.backend.experiences.repository.ExperienceRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,10 +44,10 @@ public class ExperienceControllerTest {
         QuizElement quizElement = new QuizElement("What is the capital of Italy?", "Rome", wrongAnswerList);
         List<QuizElement> quizElementsList = new ArrayList<>();
         quizElementsList.add(quizElement);
-        Quiz quiz = new Quiz("1", "quiz name", "Quiz", "quiz description", quizElementsList);
+        Quiz quiz = new Quiz("1", "quiz name", quizElementsList);
 
         //setup Experience
-        List<Quiz> listOfQuizzes = new ArrayList<>();
+        List<Game> listOfQuizzes = new ArrayList<>();
         listOfQuizzes.add(quiz);
         Experience experience = new Experience("1", "Experience name", listOfQuizzes, expIstanceList);
 
@@ -69,7 +66,7 @@ public class ExperienceControllerTest {
                                 {
                                   "id": "1",
                                   "name": "quiz name",
-                                  "description": "quiz description",
+                                  "type": "QUIZ",
                                   "listOfQuizElements": [
                                   {
                                     "question": "What is the capital of Italy?",
@@ -125,10 +122,10 @@ public class ExperienceControllerTest {
         QuizElement quizElement = new QuizElement("What is the capital of Italy?", "Rome", wrongAnswerList);
         List<QuizElement> quizElementsList = new ArrayList<>();
         quizElementsList.add(quizElement);
-        Quiz quiz = new Quiz("1", "quiz name", "Quiz", "quiz description", quizElementsList);
+        Quiz quiz = new Quiz("1", "quiz name", quizElementsList);
 
         //setup Experience
-        List<Quiz> listOfQuizzes = new ArrayList<>();
+        List<Game> listOfQuizzes = new ArrayList<>();
         listOfQuizzes.add(quiz);
         Experience experience = new Experience("1", "Experience name", listOfQuizzes, expIstanceList);
 
@@ -146,7 +143,7 @@ public class ExperienceControllerTest {
                             {
                               "id": "1",
                               "name": "quiz name",
-                              "description": "quiz description",
+                              "type": "QUIZ",
                               "listOfQuizElements": [
                               {
                                 "question": "What is the capital of Italy?",
@@ -200,7 +197,7 @@ public class ExperienceControllerTest {
                                     {
                                       "id": "1",
                                       "name": "quiz name",
-                                      "description": "quiz description",
+                                      "type": "QUIZ",
                                       "listOfQuizElements": [
                                       {
                                         "question": "What is the capital of Italy?",
@@ -230,7 +227,7 @@ public class ExperienceControllerTest {
                             {
                               "id": "1",
                               "name": "quiz name",
-                              "description": "quiz description",
+                              "type": "QUIZ",
                               "listOfQuizElements": [
                               {
                                 "question": "What is the capital of Italy?",
@@ -268,10 +265,10 @@ public class ExperienceControllerTest {
         QuizElement quizElement = new QuizElement("What is the capital of Italy?", "Rome", wrongAnswerList);
         List<QuizElement> quizElementsList = new ArrayList<>();
         quizElementsList.add(quizElement);
-        Quiz quiz = new Quiz("1", "quiz name", "Quiz", "quiz description", quizElementsList);
+        Quiz quiz = new Quiz("1", "quiz name", quizElementsList);
 
         //setup Experience
-        List<Quiz> listOfQuizzes = new ArrayList<>();
+        List<Game> listOfQuizzes = new ArrayList<>();
         listOfQuizzes.add(quiz);
         Experience experience = new Experience("1", "Experience name", listOfQuizzes, expIstanceList);
 
@@ -287,7 +284,7 @@ public class ExperienceControllerTest {
                                 {
                                   "id": "1",
                                   "name": "quiz name 2",
-                                  "description": "quiz description 2",
+                                  "type": "QUIZ",
                                   "listOfQuizElements": [
                                   {
                                     "question": "What is the capital of Spain?",
@@ -316,7 +313,7 @@ public class ExperienceControllerTest {
                                 {
                                   "id": "1",
                                   "name": "quiz name 2",
-                                  "description": "quiz description 2",
+                                  "type": "QUIZ",
                                   "listOfQuizElements": [
                                   {
                                     "question": "What is the capital of Spain?",
@@ -352,10 +349,10 @@ public class ExperienceControllerTest {
         QuizElement quizElement = new QuizElement("What is the capital of Italy?", "Rome", wrongAnswerList);
         List<QuizElement> quizElementsList = new ArrayList<>();
         quizElementsList.add(quizElement);
-        Quiz quiz = new Quiz("1", "quiz name", "Quiz", "quiz description", quizElementsList);
+        Quiz quiz = new Quiz("1", "quiz name", quizElementsList);
 
         //setup Experience
-        List<Quiz> listOfQuizzes = new ArrayList<>();
+        List<Game> listOfQuizzes = new ArrayList<>();
         listOfQuizzes.add(quiz);
         Experience experience = new Experience("1", "Experience name", listOfQuizzes, expIstanceList);
 

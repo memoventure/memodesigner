@@ -48,7 +48,6 @@ function App() {
 
                 {/* DESIGNER ROUTES */}
                 <Route path="/designer" element={<DesignerLayout />}>
-                    <Route index element={<Login />} />
                     <Route element={<ProtectedRoute user={user}/>}>
                         <Route path="dashboard" element={<Dashboard />} />
                         <Route path="experiences" element={<Experiences/>} />
@@ -59,6 +58,7 @@ function App() {
 
                 {/* Fallback */}
                 <Route path="*" element={<Navigate to="/" />} />
+                <Route path="/login" element={<Login />} />
             </Routes>
             <div>
                 {user ? (

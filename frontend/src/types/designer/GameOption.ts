@@ -1,4 +1,4 @@
 export enum GameOption {
-    QUIZ = "Quiz",
-    WELCOME = "Willkommen"
+    QUIZ = "QUIZ",
+    IMGRIDDLE = "IMGRIDDLE"
 }
