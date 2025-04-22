@@ -1,5 +1,5 @@
-import './App.css'
-import {Navigate, Route, Routes} from "react-router";
+import './index.css'
+import {Navigate, Route, Routes, useNavigate} from "react-router";
 import Login from "./components/Login.tsx";
 import {useEffect, useState} from "react";
 import {AppUser} from "./types/appuser/AppUser.ts";
@@ -17,6 +17,7 @@ import GameDesigner from "./components/designer/GameDesigner.tsx";
 
 function App() {
 
+    const navigate = useNavigate();
     const [user, setUser] = useState<AppUser | undefined | null>(undefined);
 
     useEffect(() => {
@@ -60,12 +61,13 @@ function App() {
                 {/* Fallback */}
                 <Route path="*" element={<Navigate to="/" />} />
             </Routes>
-            <div>
+            <div className="footer">
                 {user ? (
                     <>
-                    <button onClick={logout}>Logout</button>
+                        <button onClick={() => navigate("/designer/dashboard")}>Zum Dashboard</button>
+                        <button onClick={logout}>Logout</button>
                 </>
-                ) : null}
+                ) : <button onClick={() => navigate("/designer")}>Login as Designer</button>}
 
             </div>
         </>

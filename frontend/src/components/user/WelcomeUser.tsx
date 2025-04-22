@@ -1,10 +1,9 @@
 import {useState} from "react";
-import {useNavigate, useOutletContext} from "react-router";
+import {useOutletContext} from "react-router";
 
 export default function WelcomeUser() {
     const { startGame } = useOutletContext<{ startGame: (code: string) => void; }>();
 
-    const navigate = useNavigate();
     const [gameCode, setGameCode] = useState("");
     const [error, setError] = useState("");
     console.log("In welcome User")
@@ -37,9 +36,6 @@ export default function WelcomeUser() {
             {error && <p style={{ color: "red" }}>{error}</p>}
             <div>
                 <button onClick={handleStartGame}>Erlebnis starten</button>
-            </div>
-            <div>
-                <button onClick={() => navigate("/designer")}>Login as Designer</button>
             </div>
 
         </>

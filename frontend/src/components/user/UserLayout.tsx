@@ -1,4 +1,3 @@
-import UserHeader from "./UserHeader.tsx";
 import {Outlet, useNavigate} from "react-router";
 import { useState } from "react";
 import {Experience} from "../../types/designer/Experience.ts";
@@ -54,29 +53,8 @@ export default function UserLayout() {
         }
     }
 
-    const goToPrevGame = () =>
-    {
-        console.log("goToNextGame called, currentGameIndex:", currentGameIndex);
-        console.log("nextIndex:", currentGameIndex + 1);
-
-        if (!experience) return;
-        const nextIndex = currentGameIndex + 1;
-        setCurrentPoints(currentPoints + currentPoints);
-        console.log("list size:", experience.listOfGames.length);
-        if (nextIndex < experience.listOfGames.length) {
-            setCurrentGameIndex(nextIndex);
-            console.log("navigating to next game");
-            navigate("/game");
-        } else {
-            console.log("navigating to points");
-            navigate("/points", {state: {points: currentPoints + currentPoints}});
-        }
-    }
-
-
     return (
         <>
-            {experience && <UserHeader gameStep={currentGameIndex} gameLength={experience?.listOfGames.length} onNextStep={goToNextGame} onPrevStep={goToPrevGame}/>}
             <main>
                 <Outlet context={{ experience, currentGameIndex, startGame, currentPoints, goToNextGame } satisfies UserLayoutContext}/>
             </main>

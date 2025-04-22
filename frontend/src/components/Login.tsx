@@ -12,7 +12,7 @@ export default function Login() {
                 <h1>Login</h1>
             </div>
             <div>
-                <button onClick={login}>Login</button>
+                <button onClick={login}>Login with GitHub</button>
             </div>
         </>
     )

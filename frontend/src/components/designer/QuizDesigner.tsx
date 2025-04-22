@@ -88,7 +88,7 @@ export default function QuizDesigner(props: Props) {
     };
     console.log("in Quiz designer 3")
     return (
-        <div>
+        <div className="page-content">
             <h2>Quiz Designer</h2>
 
 

@@ -8,12 +8,16 @@ type Props = {
 export default function ExperienceStep(props: Props) {
     return (
         <>
-            <div style={{ border: "2px solid black", padding: "10px", textAlign: "center" }}>
-                {props.stepNumber + 1} - {props.name}
-                <button onClick={() => props.handleButtonClick("moveUp")}>▲</button>
-                <button onClick={() => props.handleButtonClick("moveDown")}>▼</button>
-                <button onClick={() => props.handleButtonClick("edit")}>Bearbeiten</button>
-                <button onClick={() => props.handleButtonClick("delete")}>Löschen</button>
+
+            <div className="experience-step-card">
+                <h3>Schritt {props.stepNumber + 1}: {props.name}</h3>
+
+                <div className="experience-step-actions">
+                    <button onClick={() => props.handleButtonClick("moveUp")}>▲</button>
+                    <button onClick={() => props.handleButtonClick("moveDown")}>▼</button>
+                    <button onClick={() => props.handleButtonClick("edit")}>Bearbeiten</button>
+                    <button onClick={() => props.handleButtonClick("delete")} className="delete-button">Löschen</button>
+                </div>
             </div>
 
         </>

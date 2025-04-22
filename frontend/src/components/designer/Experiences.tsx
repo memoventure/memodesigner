@@ -28,17 +28,19 @@ export default function Experiences() {
 
     return (
         <>
-            <div>
-                <h1>Erlebnisse verwalten</h1>
-            </div>
+            <div className="page-content">
+                <div>
+                    <h1>Erlebnisse verwalten</h1>
+                </div>
 
-            <div>
-                {experiences && experiences.map((experience) =>
-                    (<ExperienceCard key={experience.id} experience={experience}/>))
-            }
-            </div>
-            <div>
-                <button onClick={newExperience}>Neues Erlebnis erstellen</button>
+                <div>
+                    {experiences && experiences.map((experience) =>
+                        (<ExperienceCard key={experience.id} experience={experience}/>))
+                }
+                </div>
+                <div>
+                    <button onClick={newExperience}>Neues Erlebnis erstellen</button>
+                </div>
             </div>
         </>
     )

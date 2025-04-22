@@ -123,7 +123,7 @@ export default function ExperienceDesigner() {
 
     return (
         <>
-            <div>
+            <div className="experience-designer-container">
                 <h1>Erlebnis Designer</h1>
                 <div>
                     {/* Experience Name */}
@@ -142,7 +142,7 @@ export default function ExperienceDesigner() {
                         />
                     </label>
                 </div>
-                <div><p><strong>Ablauf</strong></p></div>
+                <div><h3><strong>Ablauf</strong></h3></div>
                 <div>
                     {currentExp?.listOfGames?.length > 0 &&
                         currentExp.listOfGames.map((game, index) => (<div>
@@ -169,7 +169,7 @@ export default function ExperienceDesigner() {
                     </label>
                 </div>
                 {/* Experience speichern */}
-                <button onClick={saveExperience}>💾 Speichern</button>
+                <button onClick={saveExperience} className="save-button">💾 Speichern</button>
             </div>
         </>
     );

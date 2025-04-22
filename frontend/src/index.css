@@ -1,5 +1,6 @@
 :root {
-  --font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --font-family-body: 'Nunito', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --font-family-heading: 'Recoleta', system-ui, Avenir, Helvetica, Arial, sans-serif;
   --text-color: #213547;
   --background-color: #fdf7f2;
   --primary-color: #C01538;
@@ -9,22 +10,39 @@
   --spacing-3: 24px;
   --spacing-4: 32px;
   --spacing-5: 40px;
+  --header-height: 56px;
+  --footer-height: 56px;
 }
 
 body {
   margin: 0;
   display: flex;
-  place-items: center;
+  justify-content: center;
+  align-items: center;
   min-width: 320px;
   min-height: 100vh;
   color: var(--text-color);
   background-color: var(--background-color);
+  font-family: var(--font-family-body) , sans-serif;
+  text-align: center;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family-heading) , sans-serif;
+  line-height: 1.1;
+  margin-bottom: var(--spacing-3);
 }
 
 h1 {
   font-size: 3.2em;
-  line-height: 1.1;
-  margin-bottom: var(--spacing-3);
+}
+
+h2 {
+  font-size: 2.4em;
+}
+
+h3 {
+  font-size: 1.8em;
 }
 
 button {
@@ -56,10 +74,15 @@ a {
   font-weight: 500;
   color: var(--primary-color);
   text-decoration: none;
+  font-family: inherit;
 }
 
 a:hover {
   text-decoration: underline;
+}
+
+.experience-list h1 {
+  margin-bottom: 12px;
 }
 
 .card {
@@ -75,4 +98,339 @@ a:hover {
   margin: 0 auto;
   padding: var(--spacing-4);
   text-align: center;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--primary-color);
+  height: var(--footer-height);
+  padding: 0 var(--spacing-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.footer button {
+  background-color: #fff;
+  color: var(--primary-color);
+  border: none;
+  border-radius: var(--button-radius);
+  padding: calc(var(--spacing-1) * 0.75) calc(var(--spacing-2) * 1);
+  font-size: 1em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.25s, color 0.25s, transform 0.2s;
+}
+
+.footer button:hover {
+  background-color: #fdf7f2;
+  transform: translateY(-1px);
+}
+
+input[type="text"] {
+  padding: calc(var(--spacing-1) * 1); /* 8px */
+  border: 1px solid #ccc;
+  border-radius: var(--button-radius);
+  font-size: 1em;
+  font-family: 'Nunito', var(--font-family-body), sans-serif;
+  margin-bottom: var(--spacing-2); /* 16px Abstand zum Button */
+  width: 100%;
+  max-width: 300px;
+  box-sizing: border-box;
+}
+
+input[type="text"]::placeholder {
+  font-family: 'Nunito', var(--font-family-body), sans-serif;
+  color: #aaa;
+  font-size: 1em;
+}
+
+.experience-designer-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: var(--spacing-4);
+  text-align: center;
+  padding-top: 80px; /* Abstand oben für den Header */
+  padding-bottom: 100px; /* Abstand unten für den Footer */
+  box-sizing: border-box; /* Verhindert, dass Padding den Container überläuft */
+}
+
+.experience-designer-container h1 {
+  margin-bottom: var(--spacing-4);
+}
+
+.experience-designer-container label {
+  font-size: 1.1em;
+  font-weight: 500;
+  margin-bottom: var(--spacing-3);
+  display: block;
+}
+
+.experience-designer-container input,
+.experience-designer-container select {
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--button-radius);
+  border: 2px solid var(--primary-color);
+  width: 100%;
+  margin-top: var(--spacing-2);
+  font-size: 1em;
+}
+
+.experience-designer-container button {
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--button-radius);
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.25s;
+  margin-top: var(--spacing-2);
+}
+
+.experience-designer-container button:hover {
+  background-color: #a51230;
+}
+
+.experience-designer-container .step-action-button {
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--button-radius);
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.25s;
+}
+
+.experience-designer-container .step-action-button:hover {
+  background-color: #a51230;
+}
+
+.experience-designer-container .save-button {
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--button-radius);
+  background-color: var(--primary-color);
+  color: white;
+  font-size: 1.1em;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.25s;
+  width: 100%;
+  margin-top: var(--spacing-4);
+}
+
+.experience-designer-container .save-button:hover {
+  background-color: #a51230;
+}
+
+
+.designer-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--primary-color); /* Markenrot */
+  padding: var(--spacing-2);
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+}
+
+.designer-header button {
+  background-color: #fff; /* Weißer Button */
+  color: var(--primary-color); /* Rote Schrift */
+  border: none;
+  border-radius: var(--button-radius);
+  padding: calc(var(--spacing-1) * 0.75) calc(var(--spacing-2) * 1);
+  font-size: 1em;
+  font-weight: 500;
+  font-family: 'Nunito', var(--font-family-body), sans-serif;
+  cursor: pointer;
+  transition: background-color 0.25s, color 0.25s, transform 0.2s;
+}
+
+.designer-header button:hover {
+  background-color: #fdf7f2; /* Hellrosa Hintergrund beim Hover */
+  transform: translateY(-1px);
+}
+
+.experience-card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: var(--spacing-4);
+  margin: var(--spacing-3) 0;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.experience-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.experience-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.experience-title {
+  font-size: 1.8em;
+  font-weight: 600;
+  margin: 0;
+  color: var(--primary-color);
+}
+
+.button-group {
+  display: flex;
+  gap: var(--spacing-2);
+}
+
+button {
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--button-radius);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  font-size: 1em;
+  border: none;
+}
+
+.edit-button {
+  background-color: #C01538; /* Dein primärer Rotton */
+  color: white;
+}
+
+.edit-button:hover {
+  background-color: #a51230; /* Etwas dunkleres Rot für Hover */
+  transform: translateY(-2px);
+}
+
+.delete-button {
+  background-color: #a51230; /* Dunklerer Rotton für Löschen */
+  color: white;
+}
+
+.delete-button:hover {
+  background-color: #8a1026; /* Noch dunkleres Rot für Hover */
+  transform: translateY(-2px);
+}
+
+.generate-code-button {
+  background-color: #007BFF; /* Blau für eine neutrale Farbe */
+  color: white;
+}
+
+.generate-code-button:hover {
+  background-color: #0056b3; /* Dunkleres Blau für Hover */
+  transform: translateY(-2px);
+}
+
+/* Optional: Hinzufügen eines subtilen Rahmens unten für die Card */
+.experience-card-header {
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: var(--spacing-2);
+  margin-bottom: var(--spacing-2);
+}
+
+.page-content {
+  padding-top: calc(var(--header-height) + var(--spacing-3));
+  padding-bottom: calc(var(--footer-height) + var(--spacing-5));
+  max-width: 900px;
+  margin: 0 auto;
+  padding-left: var(--spacing-4);
+  padding-right: var(--spacing-4);
+  text-align: center;
+}
+
+.experience-step-card {
+  border: 2px solid var(--primary-color);
+  padding: var(--spacing-3);
+  border-radius: 12px;
+  margin-bottom: var(--spacing-3);
+  background-color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+.experience-step-card h3 {
+  margin: 0 0 var(--spacing-2) 0;
+  color: var(--primary-color);
+  font-size: 1.4em;
+}
+
+.experience-step-actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-1);
+  flex-wrap: wrap;
+}
+
+.experience-step-actions button {
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--button-radius);
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.25s, transform 0.2s;
+  font-size: 0.95em;
+}
+
+.experience-step-actions button:hover {
+  background-color: #a51230;
+  transform: translateY(-1px);
+}
+
+.experience-step-actions .delete-button {
+  background-color: #a51230;
+}
+
+.experience-step-actions .delete-button:hover {
+  background-color: #8a1026;
+}
+
+/* Overlay für den Hintergrund des Pop-ups */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Halbtransparent */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Damit das Pop-up über anderen Inhalten liegt */
+}
+
+/* Das Pop-up selbst */
+.popup-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 300px; /* Breite des Pop-ups */
+  text-align: center;
+}
+
+.popup-content button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.popup-content button:hover {
+  background-color: #0056b3;
 }

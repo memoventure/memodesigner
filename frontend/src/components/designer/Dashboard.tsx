@@ -32,14 +32,24 @@ export default function Dashboard() {
     console.log("In New Experience")
     return ( experiences ?
         <>
-            <div>
+            <div style={{ marginBottom: "var(--spacing-4)" }}>
                 <h1>Herzlich Willkommen beim Erlebnis-Designer</h1>
             </div>
-            <div>
+            <div style={{ display: "flex", gap: "var(--spacing-3)", justifyContent: "center", marginBottom: "var(--spacing-4)" }}>
                 <button onClick={newExperience}>Erlebnis erstellen</button>
                 <button onClick={() => navigate("/designer/experiences")}>Erlebnisse verwalten</button>
             </div>
-            <div style={{ border: "2px solid black", padding: "10px", width: "200px", textAlign: "center", margin: "0 auto"}}>
+            <div
+                style={{
+                    border: "2px solid #C01538",  // Dein Markenrot
+                    padding: "var(--spacing-3)",  // Abstand innerhalb der Box
+                    width: "250px",  // Breite der Box
+                    textAlign: "center",
+                    margin: "0 auto",
+                    borderRadius: "var(--button-radius)",  // Runde Ecken für die Box
+                    backgroundColor: "#fdf7f2",  // Heller Hintergrund für die Box
+                }}
+            >
                 <h2>Deine erstellten Erlebnisse</h2>
                 <p>{experiences?.length}</p>
             </div>
